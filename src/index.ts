@@ -74,8 +74,8 @@ function mergeStorybook({
 function loadJavaScript({
   include,
 }: {
-  include: webpack.RuleSetCondition;
-}): webpack.Configuration {
+  include?: webpack.RuleSetCondition;
+} = {}): webpack.Configuration {
   return {
     resolve: {
       extensions: [".js"],
