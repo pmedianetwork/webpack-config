@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "packageDir": ["./", "node_modules/@pmedianetwork/webpack-config"] }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.config.js"
+      }
+    }
+  }
+}
