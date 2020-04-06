@@ -14,6 +14,8 @@ import { WebpackPluginServe } from "webpack-plugin-serve";
 import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 
+const BROWSERS_LIST = ["last 2 version", "ie >= 10", "Safari >= 4"];
+
 // This function returns a custom version of webpack-merge that's able to detect
 // duplicate mini-css-extract-plugins and make sure only one remains in the
 // configuration
@@ -69,7 +71,6 @@ function mergeStorybook({
   return newConfig;
 }
 
-// TODO: Should we manage Babel configuration here or let the consumer inject it?
 function loadJavaScript({
   include,
 }: {
@@ -85,6 +86,29 @@ function loadJavaScript({
           test: /\.js$/,
           use: {
             loader: "babel-loader",
+            options: {
+              presets: [
+                // Let webpack transform modules as then it's able to apply
+                // tree-shaking correctly
+                [
+                  "@babel/preset-env",
+                  { modules: false, targets: BROWSERS_LIST },
+                ],
+                "@babel/preset-react",
+              ],
+              plugins: [
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-transform-runtime",
+              ],
+              env: {
+                development: {
+                  plugins: ["react-hot-loader/babel"],
+                },
+                test: {
+                  plugins: ["require-context-hook"],
+                },
+              },
+            },
           },
           include,
           exclude: /node_modules/,
