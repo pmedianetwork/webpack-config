@@ -39,7 +39,7 @@ function mergeStorybook({
   mode: "DEVELOPMENT" | "PRODUCTION";
   config: webpack.Configuration;
   userConfig: webpack.Configuration;
-}) {
+}): webpack.Configuration {
   const newConfig = merge(config, {
     plugins: userConfig.plugins,
     // https://medium.com/@kenneth_chau/speeding-up-webpack-typescript-incremental-builds-by-7x-3912ba4c1d15
@@ -70,7 +70,11 @@ function mergeStorybook({
 }
 
 // TODO: Should we manage Babel configuration here or let the consumer inject it?
-function loadJavaScript({ include }: { include: webpack.RuleSetCondition }) {
+function loadJavaScript({
+  include,
+}: {
+  include: webpack.RuleSetCondition;
+}): webpack.Configuration {
   return {
     resolve: {
       extensions: [".js"],
@@ -92,7 +96,7 @@ function loadJavaScript({ include }: { include: webpack.RuleSetCondition }) {
   };
 }
 
-function loadTypeScript() {
+function loadTypeScript(): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return {
@@ -127,7 +131,7 @@ function loadTypeScript() {
 
 // Webpack handles JSON out of the box but it's good to set the extension
 // so that imports work without the extension.
-function loadJSON() {
+function loadJSON(): webpack.Configuration {
   return {
     resolve: {
       extensions: [".json"],
@@ -145,7 +149,7 @@ const cssLoader = {
   },
 };
 
-function loadLess() {
+function loadLess(): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return merge(
@@ -169,7 +173,7 @@ function loadLess() {
   );
 }
 
-function loadCSS() {
+function loadCSS(): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return merge(
@@ -192,7 +196,7 @@ function loadCSS() {
   );
 }
 
-function extractCSS() {
+function extractCSS(): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return {
@@ -204,7 +208,7 @@ function extractCSS() {
   };
 }
 
-function loadFonts() {
+function loadFonts(): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -220,7 +224,7 @@ function loadFonts() {
   };
 }
 
-function loadImages() {
+function loadImages(): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -236,11 +240,12 @@ function loadImages() {
   };
 }
 
-// Don't parse known, pre-built javascript files (improves webpack perf)
-function dontParse(paths: string[]) {
+// Don't parse known, pre-built JavaScript files (improves webpack perf)
+function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
   return {
     module: {
       noParse: paths,
+      rules: [],
     },
   };
 }
@@ -248,7 +253,7 @@ function dontParse(paths: string[]) {
 // https://webpack.js.org/configuration/dev-server/#devserver
 function webpackDevServer(
   { https, staticPaths } = { https: undefined, staticPaths: "" },
-) {
+): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
@@ -270,7 +275,7 @@ function webpackDevServer(
 // due to polymorphism of webpack's entry configuration as far as I understand.
 function webpackPluginServe(
   { https, staticPaths } = { https: undefined, staticPaths: "" },
-) {
+): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
@@ -304,7 +309,7 @@ function webpackPluginServe(
 
 // For PackTracker (bundle size tracking service) to work, you should set
 // CI flag to true in the continuous integration environment.
-function trackBundleSize(token: string) {
+function trackBundleSize(token: string): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
@@ -318,7 +323,7 @@ function trackBundleSize(token: string) {
   };
 }
 
-function minifyJavaScript() {
+function minifyJavaScript(): webpack.Configuration {
   return {
     optimization: {
       minimizer: [
@@ -340,7 +345,7 @@ function minifyJavaScript() {
   };
 }
 
-function minifyCSS() {
+function minifyCSS(): webpack.Configuration {
   return {
     optimization: {
       minimizer: [new OptimizeCssAssetsPlugin({})],
@@ -348,7 +353,7 @@ function minifyCSS() {
   };
 }
 
-function cleanOutput() {
+function cleanOutput(): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
@@ -367,13 +372,15 @@ function emitStats({
   filename: string;
   publicPath: string;
   logTime: boolean;
-}) {
+}): webpack.Configuration {
   return {
     plugins: [new BundleTracker({ path, filename, publicPath, logTime })],
   };
 }
 
-function provideGlobals(globals: { [key: string]: any }) {
+function provideGlobals(globals: {
+  [key: string]: any;
+}): webpack.Configuration {
   return {
     plugins: [new webpack.ProvidePlugin(globals)],
   };

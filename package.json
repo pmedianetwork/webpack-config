@@ -58,6 +58,7 @@
     "@types/optimize-css-assets-webpack-plugin": "^5.0.1",
     "@types/terser-webpack-plugin": "^2.2.0",
     "@types/webpack": "^4.41.10",
+    "@types/webpack-dev-server": "^3.10.1",
     "@types/webpack-merge": "^4.1.5",
     "@types/webpack-plugin-serve": "^0.10.0",
     "husky": "^4.2.3",
