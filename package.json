@@ -1,5 +1,5 @@
 {
-  "name": "webpack-config",
+  "name": "@pmedianetwork/webpack-config",
   "version": "0.2.0",
   "description": "This repository contains configuration that can be shared between applications using webpack for bundling.",
   "main": "dist/index.js",
