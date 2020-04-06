@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/index.d.ts"
+    "dist/index.d.ts",
+    ".babelrc"
   ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",

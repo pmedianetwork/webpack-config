@@ -71,6 +71,11 @@ function mergeStorybook({
   return newConfig;
 }
 
+// Note that .babelrc is exposed through the package root so that other tooling (babel-jest) can use it through
+//
+// {
+//  extends: "@pmedianetwork/webpack-config/.babelrc"
+// }
 function loadJavaScript({
   include,
 }: {
@@ -84,32 +89,7 @@ function loadJavaScript({
       rules: [
         {
           test: /\.js$/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: [
-                // Let webpack transform modules as then it's able to apply
-                // tree-shaking correctly
-                [
-                  "@babel/preset-env",
-                  { modules: false, targets: BROWSERS_LIST },
-                ],
-                "@babel/preset-react",
-              ],
-              plugins: [
-                "@babel/plugin-proposal-class-properties",
-                "@babel/plugin-transform-runtime",
-              ],
-              env: {
-                development: {
-                  plugins: ["react-hot-loader/babel"],
-                },
-                test: {
-                  plugins: ["require-context-hook"],
-                },
-              },
-            },
-          },
+          use: "babel-loader",
           include,
           exclude: /node_modules/,
         },
