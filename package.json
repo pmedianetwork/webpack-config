@@ -8,7 +8,7 @@
     "dist/index.js",
     "dist/index.d.ts",
     ".babelrc",
-    ".eslintrc"
+    "eslint-defaults"
   ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
