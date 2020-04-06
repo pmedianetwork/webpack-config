@@ -16,6 +16,7 @@ var webpack_plugin_1 = tslib_1.__importDefault(require("@packtracker/webpack-plu
 var webpack_plugin_serve_1 = require("webpack-plugin-serve");
 var webpack_bundle_tracker_1 = tslib_1.__importDefault(require("webpack-bundle-tracker"));
 var terser_webpack_plugin_1 = tslib_1.__importDefault(require("terser-webpack-plugin"));
+var BROWSERS_LIST = ["last 2 version", "ie >= 10", "Safari >= 4"];
 // This function returns a custom version of webpack-merge that's able to detect
 // duplicate mini-css-extract-plugins and make sure only one remains in the
 // configuration
@@ -57,7 +58,6 @@ function mergeStorybook(_a) {
     return newConfig;
 }
 exports.mergeStorybook = mergeStorybook;
-// TODO: Should we manage Babel configuration here or let the consumer inject it?
 function loadJavaScript(_a) {
     var include = _a.include;
     return {
@@ -70,6 +70,29 @@ function loadJavaScript(_a) {
                     test: /\.js$/,
                     use: {
                         loader: "babel-loader",
+                        options: {
+                            presets: [
+                                // Let webpack transform modules as then it's able to apply
+                                // tree-shaking correctly
+                                [
+                                    "@babel/preset-env",
+                                    { modules: false, targets: BROWSERS_LIST },
+                                ],
+                                "@babel/preset-react",
+                            ],
+                            plugins: [
+                                "@babel/plugin-proposal-class-properties",
+                                "@babel/plugin-transform-runtime",
+                            ],
+                            env: {
+                                development: {
+                                    plugins: ["react-hot-loader/babel"],
+                                },
+                                test: {
+                                    plugins: ["require-context-hook"],
+                                },
+                            },
+                        },
                     },
                     include: include,
                     exclude: /node_modules/,
@@ -81,6 +104,9 @@ function loadJavaScript(_a) {
     };
 }
 exports.loadJavaScript = loadJavaScript;
+// Now this portion will consume TS configuration from the project but
+// we could consider moving it here if it looks like it's uniform between
+// consumers.
 function loadTypeScript() {
     var mode = process.env.NODE_ENV;
     return {
@@ -98,7 +124,7 @@ function loadTypeScript() {
                                 // fork-ts-checker-webpack-plugin could be potentially faster
                                 // Unfortunately it crashes with
                                 // TypeError: this[MODULE_TYPE] is not a function
-                                // against CSS in this project!
+                                // against CSS in adverity-datatap!
                                 //
                                 // Another option would be to consider handling
                                 // type checking outside of webpack
