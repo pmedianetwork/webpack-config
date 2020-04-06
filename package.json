@@ -2,10 +2,17 @@
   "name": "webpack-config",
   "version": "0.0.0",
   "description": "This repository contains configuration that can be shared between applications using webpack for bundling.",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts"
+  ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./dist && tsc",
+    "postversion": "npm run build && git commit --allow-empty -am \"Update dist\""
   },
   "husky": {
     "hooks": {
@@ -54,6 +61,8 @@
     "@types/webpack-plugin-serve": "^0.10.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.1.1",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   }
 }
