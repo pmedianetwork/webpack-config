@@ -69,6 +69,7 @@ function mergeStorybook({
   return newConfig;
 }
 
+// TODO: Should we manage Babel configuration here or let the consumer inject it?
 function loadJavaScript({ include }: { include: webpack.RuleSetCondition }) {
   return {
     resolve: {
