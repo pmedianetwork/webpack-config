@@ -14,8 +14,6 @@ import { WebpackPluginServe } from "webpack-plugin-serve";
 import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 
-const BROWSERS_LIST = ["last 2 version", "ie >= 10", "Safari >= 4"];
-
 // This function returns a custom version of webpack-merge that's able to detect
 // duplicate mini-css-extract-plugins and make sure only one remains in the
 // configuration
