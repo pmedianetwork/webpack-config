@@ -16,7 +16,6 @@ var webpack_plugin_1 = tslib_1.__importDefault(require("@packtracker/webpack-plu
 var webpack_plugin_serve_1 = require("webpack-plugin-serve");
 var webpack_bundle_tracker_1 = tslib_1.__importDefault(require("webpack-bundle-tracker"));
 var terser_webpack_plugin_1 = tslib_1.__importDefault(require("terser-webpack-plugin"));
-var BROWSERS_LIST = ["last 2 version", "ie >= 10", "Safari >= 4"];
 // This function returns a custom version of webpack-merge that's able to detect
 // duplicate mini-css-extract-plugins and make sure only one remains in the
 // configuration
@@ -58,8 +57,13 @@ function mergeStorybook(_a) {
     return newConfig;
 }
 exports.mergeStorybook = mergeStorybook;
+// Note that .babelrc is exposed through the package root so that other tooling (babel-jest) can use it through
+//
+// {
+//  extends: "@pmedianetwork/webpack-config/.babelrc"
+// }
 function loadJavaScript(_a) {
-    var include = _a.include;
+    var include = (_a === void 0 ? {} : _a).include;
     return {
         resolve: {
             extensions: [".js"],
@@ -68,32 +72,7 @@ function loadJavaScript(_a) {
             rules: [
                 {
                     test: /\.js$/,
-                    use: {
-                        loader: "babel-loader",
-                        options: {
-                            presets: [
-                                // Let webpack transform modules as then it's able to apply
-                                // tree-shaking correctly
-                                [
-                                    "@babel/preset-env",
-                                    { modules: false, targets: BROWSERS_LIST },
-                                ],
-                                "@babel/preset-react",
-                            ],
-                            plugins: [
-                                "@babel/plugin-proposal-class-properties",
-                                "@babel/plugin-transform-runtime",
-                            ],
-                            env: {
-                                development: {
-                                    plugins: ["react-hot-loader/babel"],
-                                },
-                                test: {
-                                    plugins: ["require-context-hook"],
-                                },
-                            },
-                        },
-                    },
+                    use: "babel-loader",
                     include: include,
                     exclude: /node_modules/,
                 },

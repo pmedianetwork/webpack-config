@@ -7,8 +7,8 @@ declare function mergeStorybook({ mode, config, userConfig, }: {
     config: webpack.Configuration;
     userConfig: webpack.Configuration;
 }): webpack.Configuration;
-declare function loadJavaScript({ include, }: {
-    include: webpack.RuleSetCondition;
+declare function loadJavaScript({ include, }?: {
+    include?: webpack.RuleSetCondition;
 }): webpack.Configuration;
 declare function loadTypeScript(): webpack.Configuration;
 declare function loadJSON(): webpack.Configuration;
