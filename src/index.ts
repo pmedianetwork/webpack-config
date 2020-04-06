@@ -120,6 +120,9 @@ function loadJavaScript({
   };
 }
 
+// Now this portion will consume TS configuration from the project but
+// we could consider moving it here if it looks like it's uniform between
+// consumers.
 function loadTypeScript(): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
@@ -138,7 +141,7 @@ function loadTypeScript(): webpack.Configuration {
                 // fork-ts-checker-webpack-plugin could be potentially faster
                 // Unfortunately it crashes with
                 // TypeError: this[MODULE_TYPE] is not a function
-                // against CSS in this project!
+                // against CSS in adverity-datatap!
                 //
                 // Another option would be to consider handling
                 // type checking outside of webpack
