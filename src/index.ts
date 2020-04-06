@@ -245,13 +245,30 @@ function dontParse(paths: string[]) {
   };
 }
 
+// https://webpack.js.org/configuration/dev-server/#devserver
+function webpackDevServer(
+  { https, staticPaths } = { https: undefined, staticPaths: "" },
+) {
+  if (process.env.STORYBOOK) {
+    return {};
+  }
+
+  return {
+    devServer: {
+      contentBase: staticPaths,
+      https,
+      hot: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    },
+  };
+}
+
 // The current implementation uses webpack-plugin-serve. It requires the consumer
 // to set 'webpack-plugin-serve/client' as an entry and that cannot done here as
-// far as I understand.
-//
-// Another option would be to use webpack-dev-server as the option lifts the
-// requirement.
-function devServer(
+// due to polymorphism of webpack's entry configuration as far as I understand.
+function webpackPluginServe(
   { https, staticPaths } = { https: undefined, staticPaths: "" },
 ) {
   if (process.env.STORYBOOK) {
@@ -373,7 +390,8 @@ export {
   loadFonts,
   loadImages,
   dontParse,
-  devServer,
+  webpackDevServer,
+  webpackPluginServe,
   trackBundleSize,
   minifyJavaScript,
   minifyCSS,
