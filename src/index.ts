@@ -279,6 +279,7 @@ function webpackDevServer(
         "Access-Control-Allow-Origin": "*",
       },
     },
+    plugins: [new webpack.HotModuleReplacementPlugin()],
   };
 }
 
