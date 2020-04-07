@@ -17,11 +17,15 @@ declare function loadCSS(): webpack.Configuration;
 declare function loadFonts(): webpack.Configuration;
 declare function loadImages(): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
-declare function webpackDevServer({ https, staticPaths }?: {
+declare function webpackDevServer({ host, port, https, staticPaths }?: {
+    host: undefined;
+    port: undefined;
     https: undefined;
     staticPaths: string;
 }): webpack.Configuration;
-declare function webpackPluginServe({ https, staticPaths }?: {
+declare function webpackPluginServe({ host, port, https, staticPaths }?: {
+    host: string;
+    port: number;
     https: undefined;
     staticPaths: string;
 }): webpack.Configuration;

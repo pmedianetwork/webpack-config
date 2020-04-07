@@ -230,12 +230,19 @@ function dontParse(paths) {
 exports.dontParse = dontParse;
 // https://webpack.js.org/configuration/dev-server/#devserver
 function webpackDevServer(_a) {
-    var _b = _a === void 0 ? { https: undefined, staticPaths: "" } : _a, https = _b.https, staticPaths = _b.staticPaths;
+    var _b = _a === void 0 ? {
+        host: undefined,
+        port: undefined,
+        https: undefined,
+        staticPaths: "",
+    } : _a, host = _b.host, port = _b.port, https = _b.https, staticPaths = _b.staticPaths;
     if (process.env.STORYBOOK) {
         return {};
     }
     return {
         devServer: {
+            host: host,
+            port: port,
             contentBase: staticPaths,
             https: https,
             hot: true,
@@ -251,15 +258,19 @@ exports.webpackDevServer = webpackDevServer;
 // due to polymorphism of webpack's entry configuration as far as I understand.
 function webpackPluginServe(_a) {
     var _this = this;
-    var _b = _a === void 0 ? { https: undefined, staticPaths: "" } : _a, https = _b.https, staticPaths = _b.staticPaths;
+    var _b = _a === void 0 ? {
+        host: "127.0.0.1",
+        port: 8001,
+        https: undefined,
+        staticPaths: "",
+    } : _a, host = _b.host, port = _b.port, https = _b.https, staticPaths = _b.staticPaths;
     if (process.env.STORYBOOK) {
         return {};
     }
-    var WEBPACK_SERVE_PORT = 8001;
-    var publicPath = "https://localhost:" + WEBPACK_SERVE_PORT + "/";
+    var publicPath = "https://localhost:" + port + "/";
     var serveOptions = {
-        host: "127.0.0.1",
-        port: WEBPACK_SERVE_PORT,
+        host: host,
+        port: port,
         hmr: true,
         https: https,
         // @ts-ignore: Figure out how to type this
