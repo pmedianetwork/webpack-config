@@ -382,8 +382,8 @@ function cleanOutput(): webpack.Configuration {
 function emitStats({
   path = __dirname,
   filename,
-  publicPath = "/-",
-  logTime = true,
+  publicPath = "",
+  logTime = false,
 }: {
   path: string;
   filename: string;
