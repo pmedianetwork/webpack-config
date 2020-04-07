@@ -257,7 +257,12 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
 
 // https://webpack.js.org/configuration/dev-server/#devserver
 function webpackDevServer(
-  { https, staticPaths } = { https: undefined, staticPaths: "" },
+  { host, port, https, staticPaths } = {
+    host: undefined,
+    port: undefined,
+    https: undefined,
+    staticPaths: "",
+  },
 ): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
@@ -265,6 +270,8 @@ function webpackDevServer(
 
   return {
     devServer: {
+      host,
+      port,
       contentBase: staticPaths,
       https,
       hot: true,
@@ -279,18 +286,22 @@ function webpackDevServer(
 // to set 'webpack-plugin-serve/client' as an entry and that cannot done here as
 // due to polymorphism of webpack's entry configuration as far as I understand.
 function webpackPluginServe(
-  { https, staticPaths } = { https: undefined, staticPaths: "" },
+  { host, port, https, staticPaths } = {
+    host: "127.0.0.1",
+    port: 8001,
+    https: undefined,
+    staticPaths: "",
+  },
 ): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
 
-  const WEBPACK_SERVE_PORT = 8001;
-  const publicPath = `https://localhost:${WEBPACK_SERVE_PORT}/`;
+  const publicPath = `https://localhost:${port}/`;
 
   const serveOptions = {
-    host: "127.0.0.1",
-    port: WEBPACK_SERVE_PORT,
+    host,
+    port,
     hmr: true,
     https,
     // @ts-ignore: Figure out how to type this
