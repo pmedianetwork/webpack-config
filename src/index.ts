@@ -10,7 +10,6 @@ import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 // @ts-ignore: Figure out how to type this
 import PacktrackerPlugin from "@packtracker/webpack-plugin";
-import { WebpackPluginServe } from "webpack-plugin-serve";
 import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 
@@ -283,47 +282,6 @@ function webpackDevServer(
   };
 }
 
-// The current implementation uses webpack-plugin-serve. It requires the consumer
-// to set 'webpack-plugin-serve/client' as an entry and that cannot done here as
-// due to polymorphism of webpack's entry configuration as far as I understand.
-function webpackPluginServe(
-  { host, port, https, staticPaths } = {
-    host: "127.0.0.1",
-    port: 8001,
-    https: undefined,
-    staticPaths: "",
-  },
-): webpack.Configuration {
-  if (process.env.STORYBOOK) {
-    return {};
-  }
-
-  const publicPath = `https://localhost:${port}/`;
-
-  const serveOptions = {
-    host,
-    port,
-    hmr: true,
-    https,
-    // @ts-ignore: Figure out how to type this
-    middleware: (app) =>
-      // @ts-ignore: Figure out how to type this
-      app.use(async (ctx, next) => {
-        ctx.set("Access-Control-Allow-Origin", "*");
-        await next();
-      }),
-    static: staticPaths,
-  };
-
-  return {
-    output: {
-      publicPath,
-    },
-    plugins: [new WebpackPluginServe(serveOptions)],
-    watch: true,
-  };
-}
-
 // For PackTracker (bundle size tracking service) to work, you should set
 // CI flag to true in the continuous integration environment.
 function trackBundleSize(token: string): webpack.Configuration {
@@ -415,7 +373,6 @@ export {
   loadImages,
   dontParse,
   webpackDevServer,
-  webpackPluginServe,
   trackBundleSize,
   minifyJavaScript,
   minifyCSS,
