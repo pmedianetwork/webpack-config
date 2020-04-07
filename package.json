@@ -14,7 +14,7 @@
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf ./dist && tsc",
-    "postversion": "npm run build && git commit --no-verify --allow-empty -am \"Update dist\""
+    "preversion": "npm run build && git commit --no-verify --allow-empty -am \"Update dist\""
   },
   "husky": {
     "hooks": {
