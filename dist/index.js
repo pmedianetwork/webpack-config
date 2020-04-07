@@ -357,7 +357,7 @@ function cleanOutput() {
 }
 exports.cleanOutput = cleanOutput;
 function emitStats(_a) {
-    var _b = _a.path, path = _b === void 0 ? __dirname : _b, filename = _a.filename, _c = _a.publicPath, publicPath = _c === void 0 ? "/-" : _c, _d = _a.logTime, logTime = _d === void 0 ? true : _d;
+    var _b = _a.path, path = _b === void 0 ? __dirname : _b, filename = _a.filename, _c = _a.publicPath, publicPath = _c === void 0 ? "" : _c, _d = _a.logTime, logTime = _d === void 0 ? false : _d;
     return {
         plugins: [new webpack_bundle_tracker_1.default({ path: path, filename: filename, publicPath: publicPath, logTime: logTime })],
     };
