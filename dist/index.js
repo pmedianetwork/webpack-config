@@ -250,6 +250,7 @@ function webpackDevServer(_a) {
                 "Access-Control-Allow-Origin": "*",
             },
         },
+        plugins: [new webpack_1.default.HotModuleReplacementPlugin()],
     };
 }
 exports.webpackDevServer = webpackDevServer;
