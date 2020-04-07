@@ -23,12 +23,6 @@ declare function webpackDevServer({ host, port, https, staticPaths }?: {
     https: undefined;
     staticPaths: string;
 }): webpack.Configuration;
-declare function webpackPluginServe({ host, port, https, staticPaths }?: {
-    host: string;
-    port: number;
-    https: undefined;
-    staticPaths: string;
-}): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript(): webpack.Configuration;
 declare function minifyCSS(): webpack.Configuration;
@@ -42,4 +36,4 @@ declare function emitStats({ path, filename, publicPath, logTime, }: {
 declare function provideGlobals(globals: {
     [key: string]: any;
 }): webpack.Configuration;
-export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, webpackPluginServe, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, provideGlobals, };
+export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, provideGlobals, };

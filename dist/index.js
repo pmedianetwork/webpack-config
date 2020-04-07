@@ -13,7 +13,6 @@ var optimize_css_assets_webpack_plugin_1 = tslib_1.__importDefault(require("opti
 var clean_webpack_plugin_1 = require("clean-webpack-plugin");
 // @ts-ignore: Figure out how to type this
 var webpack_plugin_1 = tslib_1.__importDefault(require("@packtracker/webpack-plugin"));
-var webpack_plugin_serve_1 = require("webpack-plugin-serve");
 var webpack_bundle_tracker_1 = tslib_1.__importDefault(require("webpack-bundle-tracker"));
 var terser_webpack_plugin_1 = tslib_1.__importDefault(require("terser-webpack-plugin"));
 // This function returns a custom version of webpack-merge that's able to detect
@@ -254,57 +253,10 @@ function webpackDevServer(_a) {
     };
 }
 exports.webpackDevServer = webpackDevServer;
-// The current implementation uses webpack-plugin-serve. It requires the consumer
-// to set 'webpack-plugin-serve/client' as an entry and that cannot done here as
-// due to polymorphism of webpack's entry configuration as far as I understand.
-function webpackPluginServe(_a) {
-    var _this = this;
-    var _b = _a === void 0 ? {
-        host: "127.0.0.1",
-        port: 8001,
-        https: undefined,
-        staticPaths: "",
-    } : _a, host = _b.host, port = _b.port, https = _b.https, staticPaths = _b.staticPaths;
-    if (process.env.STORYBOOK) {
-        return {};
-    }
-    var publicPath = "https://localhost:" + port + "/";
-    var serveOptions = {
-        host: host,
-        port: port,
-        hmr: true,
-        https: https,
-        // @ts-ignore: Figure out how to type this
-        middleware: function (app) {
-            // @ts-ignore: Figure out how to type this
-            return app.use(function (ctx, next) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                return tslib_1.__generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            ctx.set("Access-Control-Allow-Origin", "*");
-                            return [4 /*yield*/, next()];
-                        case 1:
-                            _a.sent();
-                            return [2 /*return*/];
-                    }
-                });
-            }); });
-        },
-        static: staticPaths,
-    };
-    return {
-        output: {
-            publicPath: publicPath,
-        },
-        plugins: [new webpack_plugin_serve_1.WebpackPluginServe(serveOptions)],
-        watch: true,
-    };
-}
-exports.webpackPluginServe = webpackPluginServe;
 // For PackTracker (bundle size tracking service) to work, you should set
 // CI flag to true in the continuous integration environment.
 function trackBundleSize(token) {
-    if (process.env.STORYBOOK) {
+    if (process.env.STORYBOOK || !process.env.CI) {
         return {};
     }
     return {
