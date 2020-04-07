@@ -285,9 +285,10 @@ function webpackDevServer(
 // For PackTracker (bundle size tracking service) to work, you should set
 // CI flag to true in the continuous integration environment.
 function trackBundleSize(token: string): webpack.Configuration {
-  if (process.env.STORYBOOK) {
+  if (process.env.STORYBOOK || !process.env.CI) {
     return {};
   }
+
   return {
     plugins: [
       new PacktrackerPlugin({
