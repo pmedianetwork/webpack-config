@@ -14,8 +14,12 @@ declare function loadTypeScript(): webpack.Configuration;
 declare function loadJSON(): webpack.Configuration;
 declare function loadLess(): webpack.Configuration;
 declare function loadCSS(): webpack.Configuration;
-declare function loadFonts(): webpack.Configuration;
-declare function loadImages(): webpack.Configuration;
+declare function loadFonts({ publicPath, }: {
+    publicPath: string;
+}): webpack.Configuration;
+declare function loadImages({ publicPath, }: {
+    publicPath: string;
+}): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
 declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
