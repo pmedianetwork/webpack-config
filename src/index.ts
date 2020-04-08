@@ -4,6 +4,7 @@
  * configuration based on the exact need.
  */
 import webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
@@ -255,13 +256,10 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
 }
 
 // https://webpack.js.org/configuration/dev-server/#devserver
+//
+// Note that HMR is enabled by default!
 function webpackDevServer(
-  { host, port, https, staticPaths } = {
-    host: undefined,
-    port: undefined,
-    https: undefined,
-    staticPaths: "",
-  },
+  options: WebpackDevServer.Configuration,
 ): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
@@ -269,14 +267,11 @@ function webpackDevServer(
 
   return {
     devServer: {
-      host,
-      port,
-      contentBase: staticPaths,
-      https,
       hot: true,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
+      ...options,
     },
     plugins: [new webpack.HotModuleReplacementPlugin()],
   };
