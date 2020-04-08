@@ -213,7 +213,11 @@ function extractCSS(): webpack.Configuration {
   };
 }
 
-function loadFonts(): webpack.Configuration {
+function loadFonts({
+  publicPath,
+}: {
+  publicPath: string;
+}): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -221,7 +225,7 @@ function loadFonts(): webpack.Configuration {
           test: /\.(woff|woff2|ttf|eot)($|\?)/,
           use: {
             loader: "file-loader",
-            options: { name: "[name].[ext]" },
+            options: { name: "[name].[ext]", publicPath },
           },
         },
       ],
@@ -229,7 +233,11 @@ function loadFonts(): webpack.Configuration {
   };
 }
 
-function loadImages(): webpack.Configuration {
+function loadImages({
+  publicPath,
+}: {
+  publicPath: string;
+}): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -237,7 +245,7 @@ function loadImages(): webpack.Configuration {
           test: /\.(svg|png|gif|ico|jpg)($|\?)/,
           use: {
             loader: "file-loader",
-            options: { name: "[name].[ext]" },
+            options: { name: "[name].[ext]", publicPath },
           },
         },
       ],
