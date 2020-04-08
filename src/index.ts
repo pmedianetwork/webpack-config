@@ -257,7 +257,8 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
 
 // https://webpack.js.org/configuration/dev-server/#devserver
 //
-// Note that HMR is enabled by default!
+// Note that HMR is enabled by default! That could be extracted to
+// another function in case it's not needed in all projects.
 function webpackDevServer(
   options: WebpackDevServer.Configuration,
 ): webpack.Configuration {
@@ -273,7 +274,11 @@ function webpackDevServer(
       },
       ...options,
     },
+    // HMR setup with React and react-hot-loader
     plugins: [new webpack.HotModuleReplacementPlugin()],
+    resolve: {
+      alias: { "react-dom": "@hot-loader/react-dom" },
+    },
   };
 }
 
