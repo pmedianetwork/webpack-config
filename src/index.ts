@@ -214,6 +214,7 @@ function extractCSS(): webpack.Configuration {
 }
 
 type FileLoaderOptions = {
+  name?: string;
   outputPath?: string;
   publicPath?: string;
   postTransformPublicPath?: (p: string) => string;
@@ -221,7 +222,7 @@ type FileLoaderOptions = {
   emitFile?: boolean;
 };
 
-function loadFonts(options: FileLoaderOptions): webpack.Configuration {
+function loadFonts(options: FileLoaderOptions = {}): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -229,7 +230,7 @@ function loadFonts(options: FileLoaderOptions): webpack.Configuration {
           test: /\.(woff|woff2|ttf|eot)($|\?)/,
           use: {
             loader: "file-loader",
-            options: { name: "[name].[ext]", options },
+            options: { name: "[name].[ext]", ...options },
           },
         },
       ],
@@ -237,7 +238,7 @@ function loadFonts(options: FileLoaderOptions): webpack.Configuration {
   };
 }
 
-function loadImages(options: FileLoaderOptions): webpack.Configuration {
+function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -245,7 +246,7 @@ function loadImages(options: FileLoaderOptions): webpack.Configuration {
           test: /\.(svg|png|gif|ico|jpg)($|\?)/,
           use: {
             loader: "file-loader",
-            options: { name: "[name].[ext]", options },
+            options: { name: "[name].[ext]", ...options },
           },
         },
       ],
