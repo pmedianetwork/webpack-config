@@ -228,27 +228,16 @@ function dontParse(paths) {
 }
 exports.dontParse = dontParse;
 // https://webpack.js.org/configuration/dev-server/#devserver
-function webpackDevServer(_a) {
-    var _b = _a === void 0 ? {
-        host: undefined,
-        port: undefined,
-        https: undefined,
-        staticPaths: "",
-    } : _a, host = _b.host, port = _b.port, https = _b.https, staticPaths = _b.staticPaths;
+//
+// Note that HMR is enabled by default!
+function webpackDevServer(options) {
     if (process.env.STORYBOOK) {
         return {};
     }
     return {
-        devServer: {
-            host: host,
-            port: port,
-            contentBase: staticPaths,
-            https: https,
-            hot: true,
-            headers: {
+        devServer: tslib_1.__assign({ hot: true, headers: {
                 "Access-Control-Allow-Origin": "*",
-            },
-        },
+            } }, options),
         plugins: [new webpack_1.default.HotModuleReplacementPlugin()],
     };
 }

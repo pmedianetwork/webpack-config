@@ -1,5 +1,5 @@
-/// <reference types="webpack-dev-server" />
 import webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
 declare function mergeConfig(): merge.ConfigurationMergeFunction;
 declare function mergeStorybook({ mode, config, userConfig, }: {
@@ -17,12 +17,7 @@ declare function loadCSS(): webpack.Configuration;
 declare function loadFonts(): webpack.Configuration;
 declare function loadImages(): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
-declare function webpackDevServer({ host, port, https, staticPaths }?: {
-    host: undefined;
-    port: undefined;
-    https: undefined;
-    staticPaths: string;
-}): webpack.Configuration;
+declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript(): webpack.Configuration;
 declare function minifyCSS(): webpack.Configuration;
