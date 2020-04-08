@@ -15,14 +15,15 @@ declare function loadJSON(): webpack.Configuration;
 declare function loadLess(): webpack.Configuration;
 declare function loadCSS(): webpack.Configuration;
 declare type FileLoaderOptions = {
+    name?: string;
     outputPath?: string;
     publicPath?: string;
     postTransformPublicPath?: (p: string) => string;
     context?: string;
     emitFile?: boolean;
 };
-declare function loadFonts(options: FileLoaderOptions): webpack.Configuration;
-declare function loadImages(options: FileLoaderOptions): webpack.Configuration;
+declare function loadFonts(options?: FileLoaderOptions): webpack.Configuration;
+declare function loadImages(options?: FileLoaderOptions): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
 declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;

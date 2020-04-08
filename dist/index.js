@@ -186,6 +186,7 @@ function extractCSS() {
     };
 }
 function loadFonts(options) {
+    if (options === void 0) { options = {}; }
     return {
         module: {
             rules: [
@@ -193,7 +194,7 @@ function loadFonts(options) {
                     test: /\.(woff|woff2|ttf|eot)($|\?)/,
                     use: {
                         loader: "file-loader",
-                        options: { name: "[name].[ext]", options: options },
+                        options: tslib_1.__assign({ name: "[name].[ext]" }, options),
                     },
                 },
             ],
@@ -202,6 +203,7 @@ function loadFonts(options) {
 }
 exports.loadFonts = loadFonts;
 function loadImages(options) {
+    if (options === void 0) { options = {}; }
     return {
         module: {
             rules: [
@@ -209,7 +211,7 @@ function loadImages(options) {
                     test: /\.(svg|png|gif|ico|jpg)($|\?)/,
                     use: {
                         loader: "file-loader",
-                        options: { name: "[name].[ext]", options: options },
+                        options: tslib_1.__assign({ name: "[name].[ext]" }, options),
                     },
                 },
             ],
