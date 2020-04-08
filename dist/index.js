@@ -185,8 +185,7 @@ function extractCSS() {
         ],
     };
 }
-function loadFonts(_a) {
-    var publicPath = _a.publicPath;
+function loadFonts(options) {
     return {
         module: {
             rules: [
@@ -194,7 +193,7 @@ function loadFonts(_a) {
                     test: /\.(woff|woff2|ttf|eot)($|\?)/,
                     use: {
                         loader: "file-loader",
-                        options: { name: "[name].[ext]", publicPath: publicPath },
+                        options: { name: "[name].[ext]", options: options },
                     },
                 },
             ],
@@ -202,8 +201,7 @@ function loadFonts(_a) {
     };
 }
 exports.loadFonts = loadFonts;
-function loadImages(_a) {
-    var publicPath = _a.publicPath;
+function loadImages(options) {
     return {
         module: {
             rules: [
@@ -211,7 +209,7 @@ function loadImages(_a) {
                     test: /\.(svg|png|gif|ico|jpg)($|\?)/,
                     use: {
                         loader: "file-loader",
-                        options: { name: "[name].[ext]", publicPath: publicPath },
+                        options: { name: "[name].[ext]", options: options },
                     },
                 },
             ],
