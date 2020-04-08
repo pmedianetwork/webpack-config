@@ -229,7 +229,8 @@ function dontParse(paths) {
 exports.dontParse = dontParse;
 // https://webpack.js.org/configuration/dev-server/#devserver
 //
-// Note that HMR is enabled by default!
+// Note that HMR is enabled by default! That could be extracted to
+// another function in case it's not needed in all projects.
 function webpackDevServer(options) {
     if (process.env.STORYBOOK) {
         return {};
@@ -238,7 +239,11 @@ function webpackDevServer(options) {
         devServer: tslib_1.__assign({ hot: true, headers: {
                 "Access-Control-Allow-Origin": "*",
             } }, options),
+        // HMR setup with React and react-hot-loader
         plugins: [new webpack_1.default.HotModuleReplacementPlugin()],
+        resolve: {
+            alias: { "react-dom": "@hot-loader/react-dom" },
+        },
     };
 }
 exports.webpackDevServer = webpackDevServer;
