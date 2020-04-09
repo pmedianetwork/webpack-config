@@ -15,6 +15,7 @@ var clean_webpack_plugin_1 = require("clean-webpack-plugin");
 var webpack_plugin_1 = tslib_1.__importDefault(require("@packtracker/webpack-plugin"));
 var webpack_bundle_tracker_1 = tslib_1.__importDefault(require("webpack-bundle-tracker"));
 var terser_webpack_plugin_1 = tslib_1.__importDefault(require("terser-webpack-plugin"));
+var webpack_plugin_2 = tslib_1.__importDefault(require("@sentry/webpack-plugin"));
 // This function returns a custom version of webpack-merge that's able to detect
 // duplicate mini-css-extract-plugins and make sure only one remains in the
 // configuration
@@ -317,3 +318,33 @@ function provideGlobals(globals) {
     };
 }
 exports.provideGlobals = provideGlobals;
+// The Sentry plugin will look for SENTRY_AUTH_TOKEN and
+// other env variables defined at https://docs.sentry.io/cli/configuration/#configuration-values
+//
+// It's an adapter to Sentry CLI and takes care of uploading
+// source maps to Sentry service.
+function uploadSourcemapsToSentry() {
+    if (!process.env.SENTRY_ORG) {
+        // eslint-disable-next-line no-console
+        console.warn("Sentry: Missing environment variables!");
+        return {};
+    }
+    return {
+        plugins: [
+            // Map Sentry environment variables from env to webpack so they are available
+            // to Sentry.init at the application (remember set it up!).
+            new webpack_1.default.EnvironmentPlugin([
+                "SENTRY_DSN",
+                "SENTRY_PUBLIC_KEY",
+                "SENTRY_PROJECT_ID",
+            ]),
+            // Send source maps to Sentry using the CLI through
+            // a webpack plugin.
+            new webpack_plugin_2.default({
+                include: ".",
+                ignore: ["node_modules", "webpack.config.js"],
+            }),
+        ],
+    };
+}
+exports.uploadSourcemapsToSentry = uploadSourcemapsToSentry;

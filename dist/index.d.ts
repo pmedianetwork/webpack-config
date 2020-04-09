@@ -1,6 +1,7 @@
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
+import SentryCliPlugin from "@sentry/webpack-plugin";
 declare function mergeConfig(): merge.ConfigurationMergeFunction;
 declare function mergeStorybook({ mode, config, userConfig, }: {
     mode: "DEVELOPMENT" | "PRODUCTION";
@@ -39,4 +40,9 @@ declare function emitStats({ path, filename, publicPath, logTime, }: {
 declare function provideGlobals(globals: {
     [key: string]: any;
 }): webpack.Configuration;
-export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, provideGlobals, };
+declare function uploadSourcemapsToSentry(): {
+    plugins?: undefined;
+} | {
+    plugins: (webpack.EnvironmentPlugin | SentryCliPlugin)[];
+};
+export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, provideGlobals, uploadSourcemapsToSentry, };
