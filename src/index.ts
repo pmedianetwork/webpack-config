@@ -486,6 +486,14 @@ function uploadSourcemapsToSentry() {
   };
 }
 
+function exposeEnvironmentVariables(
+  environmentVariables: string[],
+): webpack.Configuration {
+  return {
+    plugins: [new webpack.EnvironmentPlugin(environmentVariables)],
+  };
+}
+
 export {
   mergeConfig,
   mergeStorybook,
@@ -506,4 +514,5 @@ export {
   injectGlobal,
   provideGlobals,
   uploadSourcemapsToSentry,
+  exposeEnvironmentVariables,
 };
