@@ -265,10 +265,22 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
     module: {
       rules: [
         {
-          test: /\.(svg|png|gif|ico|jpg)($|\?)/,
+          test: /\.(png|gif|ico|jpg)($|\?)/,
           use: {
-            loader: "file-loader",
-            options: { name: "[name].[ext]", ...options },
+            loader: "url-loader",
+            options: { limit: 15000, name: "[name].[ext]", ...options },
+          },
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 15000,
+              name: "[name].[ext]",
+              mimetype: "image/svg+xml",
+              ...options,
+            },
           },
         },
       ],
