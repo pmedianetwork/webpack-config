@@ -422,7 +422,7 @@ function injectGlobal({
           use: [
             {
               loader: "imports-loader",
-              query: globals,
+              options: globals,
             },
           ],
         },
