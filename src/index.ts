@@ -249,7 +249,30 @@ function loadFonts(options: FileLoaderOptions = {}): webpack.Configuration {
     module: {
       rules: [
         {
-          test: /\.(woff|woff2|ttf|eot)($|\?)/,
+          test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              name: "[name].[ext]",
+              mimetype: "application/font-woff",
+              ...options,
+            },
+          },
+        },
+        {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              mimetype: "application/octet-stream",
+              ...options,
+            },
+          },
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
           use: {
             loader: "file-loader",
             options: { name: "[name].[ext]", ...options },
