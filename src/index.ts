@@ -155,7 +155,13 @@ const cssLoader = {
   },
 };
 
-function loadLess(): webpack.Configuration {
+type PostCSSPlugin = (id: string) => any;
+
+function loadLess({
+  postCssPlugins,
+}: {
+  postCssPlugins?: PostCSSPlugin[];
+} = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return merge(
@@ -169,8 +175,9 @@ function loadLess(): webpack.Configuration {
                 ? MiniCssExtractPlugin.loader
                 : "style-loader",
               cssLoader,
+              postCssPlugins ? postCssLoader(postCssPlugins) : "",
               "less-loader",
-            ],
+            ].filter(Boolean),
           },
         ],
       },
@@ -179,7 +186,11 @@ function loadLess(): webpack.Configuration {
   );
 }
 
-function loadCSS(): webpack.Configuration {
+function loadCSS({
+  postCssPlugins,
+}: {
+  postCssPlugins?: PostCSSPlugin[];
+} = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return merge(
@@ -193,13 +204,23 @@ function loadCSS(): webpack.Configuration {
                 ? MiniCssExtractPlugin.loader
                 : "style-loader",
               cssLoader,
-            ],
+              postCssPlugins ? postCssLoader(postCssPlugins) : "",
+            ].filter(Boolean),
           },
         ],
       },
     },
     extractCSS(),
   );
+}
+
+function postCssLoader(plugins: PostCSSPlugin[]) {
+  return {
+    loader: "postcss-loader",
+    options: {
+      plugins,
+    },
+  };
 }
 
 function extractCSS(): webpack.Configuration {

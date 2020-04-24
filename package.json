@@ -52,6 +52,7 @@
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
     "react-hot-loader": "^4.12.20",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.1.3",
