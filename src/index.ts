@@ -385,11 +385,37 @@ function emitStats({
   };
 }
 
-function provideGlobals(globals: {
+type Globals = {
   [key: string]: any;
-}): webpack.Configuration {
+};
+
+function provideGlobals(globals: Globals): webpack.Configuration {
   return {
     plugins: [new webpack.ProvidePlugin(globals)],
+  };
+}
+
+function injectGlobal({
+  test,
+  globals,
+}: {
+  test: webpack.RuleSetRule["test"];
+  globals: Globals;
+}): webpack.Configuration {
+  return {
+    module: {
+      rules: [
+        {
+          test,
+          use: [
+            {
+              loader: "imports-loader",
+              query: globals,
+            },
+          ],
+        },
+      ],
+    },
   };
 }
 
@@ -442,6 +468,7 @@ export {
   minifyCSS,
   cleanOutput,
   emitStats,
+  injectGlobal,
   provideGlobals,
   uploadSourcemapsToSentry,
 };
