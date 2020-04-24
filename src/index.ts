@@ -82,12 +82,12 @@ function loadJavaScript({
 } = {}): webpack.Configuration {
   return {
     resolve: {
-      extensions: [".js"],
+      extensions: [".jsx", ".js"],
     },
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.jsx?$/,
           use: "babel-loader",
           include,
           exclude: /node_modules/,
