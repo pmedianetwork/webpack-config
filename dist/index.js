@@ -450,7 +450,10 @@ function exposeGlobals(globals) {
             rules: Object.keys(globals).map(function (test) {
                 return {
                     test: test,
-                    options: globals[test],
+                    use: {
+                        loader: "expose-loader",
+                        options: globals[test],
+                    },
                 };
             }),
         },
