@@ -13,8 +13,13 @@ declare function loadJavaScript({ include, }?: {
 }): webpack.Configuration;
 declare function loadTypeScript(): webpack.Configuration;
 declare function loadJSON(): webpack.Configuration;
-declare function loadLess(): webpack.Configuration;
-declare function loadCSS(): webpack.Configuration;
+declare type PostCSSPlugin = (id: string) => any;
+declare function loadLess({ postCssPlugins, }?: {
+    postCssPlugins?: PostCSSPlugin[];
+}): webpack.Configuration;
+declare function loadCSS({ postCssPlugins, }?: {
+    postCssPlugins?: PostCSSPlugin[];
+}): webpack.Configuration;
 declare type FileLoaderOptions = {
     name?: string;
     outputPath?: string;
@@ -37,12 +42,18 @@ declare function emitStats({ path, filename, publicPath, logTime, }: {
     publicPath: string;
     logTime: boolean;
 }): webpack.Configuration;
-declare function provideGlobals(globals: {
+declare type Globals = {
     [key: string]: any;
+};
+declare function provideGlobals(globals: Globals): webpack.Configuration;
+declare function injectGlobal({ test, globals, }: {
+    test: webpack.RuleSetRule["test"];
+    globals: Globals;
 }): webpack.Configuration;
 declare function uploadSourcemapsToSentry(): {
     plugins?: undefined;
 } | {
     plugins: (webpack.EnvironmentPlugin | SentryCliPlugin)[];
 };
-export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, provideGlobals, uploadSourcemapsToSentry, };
+declare function exposeEnvironmentVariables(environmentVariables: string[]): webpack.Configuration;
+export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, };

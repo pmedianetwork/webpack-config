@@ -66,12 +66,12 @@ function loadJavaScript(_a) {
     var include = (_a === void 0 ? {} : _a).include;
     return {
         resolve: {
-            extensions: [".js"],
+            extensions: [".jsx", ".js"],
         },
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: /\.jsx?$/,
                     use: "babel-loader",
                     include: include,
                     exclude: /node_modules/,
@@ -137,7 +137,8 @@ var cssLoader = {
         },
     },
 };
-function loadLess() {
+function loadLess(_a) {
+    var postCssPlugins = (_a === void 0 ? {} : _a).postCssPlugins;
     var mode = process.env.NODE_ENV;
     return webpack_merge_1.default({
         module: {
@@ -149,15 +150,17 @@ function loadLess() {
                             ? mini_css_extract_plugin_1.default.loader
                             : "style-loader",
                         cssLoader,
+                        postCssPlugins ? postCssLoader(postCssPlugins) : "",
                         "less-loader",
-                    ],
+                    ].filter(Boolean),
                 },
             ],
         },
     }, extractCSS());
 }
 exports.loadLess = loadLess;
-function loadCSS() {
+function loadCSS(_a) {
+    var postCssPlugins = (_a === void 0 ? {} : _a).postCssPlugins;
     var mode = process.env.NODE_ENV;
     return webpack_merge_1.default({
         module: {
@@ -169,13 +172,22 @@ function loadCSS() {
                             ? mini_css_extract_plugin_1.default.loader
                             : "style-loader",
                         cssLoader,
-                    ],
+                        postCssPlugins ? postCssLoader(postCssPlugins) : "",
+                    ].filter(Boolean),
                 },
             ],
         },
     }, extractCSS());
 }
 exports.loadCSS = loadCSS;
+function postCssLoader(plugins) {
+    return {
+        loader: "postcss-loader",
+        options: {
+            plugins: plugins,
+        },
+    };
+}
 function extractCSS() {
     var mode = process.env.NODE_ENV;
     return {
@@ -192,7 +204,21 @@ function loadFonts(options) {
         module: {
             rules: [
                 {
-                    test: /\.(woff|woff2|ttf|eot)($|\?)/,
+                    test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+                    use: {
+                        loader: "url-loader",
+                        options: tslib_1.__assign({ limit: 10000, name: "[name].[ext]", mimetype: "application/font-woff" }, options),
+                    },
+                },
+                {
+                    test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+                    use: {
+                        loader: "file-loader",
+                        options: tslib_1.__assign({ name: "[name].[ext]", mimetype: "application/octet-stream" }, options),
+                    },
+                },
+                {
+                    test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
                     use: {
                         loader: "file-loader",
                         options: tslib_1.__assign({ name: "[name].[ext]" }, options),
@@ -209,10 +235,17 @@ function loadImages(options) {
         module: {
             rules: [
                 {
-                    test: /\.(svg|png|gif|ico|jpg)($|\?)/,
+                    test: /\.(png|gif|ico|jpg)($|\?)/,
                     use: {
-                        loader: "file-loader",
-                        options: tslib_1.__assign({ name: "[name].[ext]" }, options),
+                        loader: "url-loader",
+                        options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]" }, options),
+                    },
+                },
+                {
+                    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                    use: {
+                        loader: "url-loader",
+                        options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]", mimetype: "image/svg+xml" }, options),
                     },
                 },
             ],
@@ -318,6 +351,25 @@ function provideGlobals(globals) {
     };
 }
 exports.provideGlobals = provideGlobals;
+function injectGlobal(_a) {
+    var test = _a.test, globals = _a.globals;
+    return {
+        module: {
+            rules: [
+                {
+                    test: test,
+                    use: [
+                        {
+                            loader: "imports-loader",
+                            options: globals,
+                        },
+                    ],
+                },
+            ],
+        },
+    };
+}
+exports.injectGlobal = injectGlobal;
 // The Sentry plugin will look for SENTRY_AUTH_TOKEN and
 // other env variables defined at https://docs.sentry.io/cli/configuration/#configuration-values
 //
@@ -348,3 +400,9 @@ function uploadSourcemapsToSentry() {
     };
 }
 exports.uploadSourcemapsToSentry = uploadSourcemapsToSentry;
+function exposeEnvironmentVariables(environmentVariables) {
+    return {
+        plugins: [new webpack_1.default.EnvironmentPlugin(environmentVariables)],
+    };
+}
+exports.exposeEnvironmentVariables = exposeEnvironmentVariables;
