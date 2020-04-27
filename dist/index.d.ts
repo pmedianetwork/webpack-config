@@ -1,6 +1,8 @@
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
+import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 declare function mergeConfig(): merge.ConfigurationMergeFunction;
 declare function mergeStorybook({ mode, config, userConfig, }: {
@@ -33,8 +35,10 @@ declare function loadImages(options?: FileLoaderOptions): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
 declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
-declare function minifyJavaScript(): webpack.Configuration;
-declare function minifyCSS(): webpack.Configuration;
+declare function minifyJavaScript({ terserOptions, }?: {
+    terserOptions: TerserPlugin.TerserPluginOptions["terserOptions"];
+}): webpack.Configuration;
+declare function minifyCSS(options?: OptimizeCssAssetsPlugin.Options): webpack.Configuration;
 declare function cleanOutput(): webpack.Configuration;
 declare function emitStats({ path, filename, publicPath, logTime, }: {
     path: string;

@@ -310,18 +310,15 @@ function trackBundleSize(token) {
     };
 }
 exports.trackBundleSize = trackBundleSize;
-function minifyJavaScript() {
+function minifyJavaScript(_a) {
+    var terserOptions = (_a === void 0 ? { terserOptions: {} } : _a).terserOptions;
     return {
         optimization: {
             minimizer: [
                 new terser_webpack_plugin_1.default({
                     cache: true,
                     parallel: true,
-                    terserOptions: {
-                        output: {
-                            comments: false,
-                        },
-                    },
+                    terserOptions: tslib_1.__assign(tslib_1.__assign({}, terserOptions), { output: tslib_1.__assign({ comments: false }, (terserOptions ? terserOptions.output : {})) }),
                     extractComments: false,
                     // This works only with source-map, inline-source-map, hidden-source-map and
                     // nosources-source-map values for the devtool option!
@@ -332,10 +329,11 @@ function minifyJavaScript() {
     };
 }
 exports.minifyJavaScript = minifyJavaScript;
-function minifyCSS() {
+function minifyCSS(options) {
+    if (options === void 0) { options = {}; }
     return {
         optimization: {
-            minimizer: [new optimize_css_assets_webpack_plugin_1.default({})],
+            minimizer: [new optimize_css_assets_webpack_plugin_1.default(options)],
         },
     };
 }
