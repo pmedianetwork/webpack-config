@@ -56,4 +56,7 @@ declare function uploadSourcemapsToSentry(): {
     plugins: (webpack.EnvironmentPlugin | SentryCliPlugin)[];
 };
 declare function exposeEnvironmentVariables(environmentVariables: string[]): webpack.Configuration;
-export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, };
+declare function exposeGlobals(globals: {
+    [name: string]: string;
+}): webpack.Configuration;
+export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };

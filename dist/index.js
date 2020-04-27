@@ -417,3 +417,16 @@ function exposeEnvironmentVariables(environmentVariables) {
     };
 }
 exports.exposeEnvironmentVariables = exposeEnvironmentVariables;
+function exposeGlobals(globals) {
+    return {
+        module: {
+            rules: Object.keys(globals).map(function (test) {
+                return {
+                    test: test,
+                    options: globals[test],
+                };
+            }),
+        },
+    };
+}
+exports.exposeGlobals = exposeGlobals;
