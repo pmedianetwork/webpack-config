@@ -376,7 +376,13 @@ function trackBundleSize(token: string): webpack.Configuration {
   };
 }
 
-function minifyJavaScript(): webpack.Configuration {
+function minifyJavaScript(
+  {
+    terserOptions,
+  }: {
+    terserOptions: TerserPlugin.TerserPluginOptions["terserOptions"];
+  } = { terserOptions: {} },
+): webpack.Configuration {
   return {
     optimization: {
       minimizer: [
@@ -384,8 +390,10 @@ function minifyJavaScript(): webpack.Configuration {
           cache: true,
           parallel: true,
           terserOptions: {
+            ...terserOptions,
             output: {
               comments: false,
+              ...(terserOptions ? terserOptions.output : {}),
             },
           },
           extractComments: false,
