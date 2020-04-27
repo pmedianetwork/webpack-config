@@ -556,7 +556,10 @@ function exposeGlobals(globals: {
       rules: Object.keys(globals).map((test) => {
         return {
           test,
-          options: globals[test],
+          use: {
+            loader: "expose-loader",
+            options: globals[test],
+          },
         };
       }),
     },
