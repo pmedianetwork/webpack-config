@@ -406,10 +406,12 @@ function minifyJavaScript(
   };
 }
 
-function minifyCSS(): webpack.Configuration {
+function minifyCSS(
+  options: OptimizeCssAssetsPlugin.Options = {},
+): webpack.Configuration {
   return {
     optimization: {
-      minimizer: [new OptimizeCssAssetsPlugin({})],
+      minimizer: [new OptimizeCssAssetsPlugin(options)],
     },
   };
 }
