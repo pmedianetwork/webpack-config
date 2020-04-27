@@ -113,6 +113,9 @@ function loadJavaScript({
 function loadTypeScript(): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
+  // TODO: It's worth benchmarking babel-loader here. Given there's no
+  // full feature-parity, you should enable isolatedModules in your TS
+  // settings if you go this way.
   return {
     resolve: {
       extensions: [".tsx", ".ts"],
