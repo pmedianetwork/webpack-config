@@ -18,19 +18,6 @@ import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 
-// This function returns a custom version of webpack-merge that's able to detect
-// duplicate mini-css-extract-plugins and make sure only one remains in the
-// configuration
-function mergeConfig() {
-  return merge({
-    customizeArray: merge.unique(
-      "plugins",
-      ["MiniCssExtractPlugin"],
-      (plugin) => plugin.constructor && plugin.constructor.name,
-    ),
-  });
-}
-
 // This function should be used for merging Storybook base configuration with
 // project specific configuration. It's the place where Storybook can be optimized
 // further.
@@ -209,26 +196,23 @@ function loadLess({
 } = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
-  return merge(
-    {
-      module: {
-        rules: [
-          {
-            test: /\.less$/,
-            use: [
-              mode === "production"
-                ? MiniCssExtractPlugin.loader
-                : "style-loader",
-              cssLoader(postCssPlugins && { importLoaders: 1 }),
-              postCssPlugins ? postCssLoader(postCssPlugins) : "",
-              "less-loader",
-            ].filter(Boolean),
-          },
-        ],
-      },
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.less$/,
+          use: [
+            mode === "production"
+              ? MiniCssExtractPlugin.loader
+              : "style-loader",
+            cssLoader(postCssPlugins && { importLoaders: 1 }),
+            postCssPlugins ? postCssLoader(postCssPlugins) : "",
+            "less-loader",
+          ].filter(Boolean),
+        },
+      ],
     },
-    extractCSS(),
-  );
+  };
 }
 
 function loadCSS({
@@ -238,25 +222,22 @@ function loadCSS({
 } = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
-  return merge(
-    {
-      module: {
-        rules: [
-          {
-            test: /\.css$/,
-            use: [
-              mode === "production"
-                ? MiniCssExtractPlugin.loader
-                : "style-loader",
-              cssLoader(postCssPlugins && { importLoaders: 1 }),
-              postCssPlugins ? postCssLoader(postCssPlugins) : "",
-            ].filter(Boolean),
-          },
-        ],
-      },
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            mode === "production"
+              ? MiniCssExtractPlugin.loader
+              : "style-loader",
+            cssLoader(postCssPlugins && { importLoaders: 1 }),
+            postCssPlugins ? postCssLoader(postCssPlugins) : "",
+          ].filter(Boolean),
+        },
+      ],
     },
-    extractCSS(),
-  );
+  };
 }
 
 function postCssLoader(plugins: PostCSSPlugin[]) {
@@ -268,13 +249,17 @@ function postCssLoader(plugins: PostCSSPlugin[]) {
   };
 }
 
-function extractCSS(): webpack.Configuration {
+function extractCSS({
+  filename,
+}: { filename?: string } = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return {
     plugins: [
       new MiniCssExtractPlugin({
-        filename: `${mode === "production" ? "[name]-[hash]" : "[name]"}.css`,
+        filename: `${
+          filename || mode === "production" ? "[name]-[hash]" : "[name]"
+        }.css`,
       }),
     ],
   };
@@ -570,7 +555,7 @@ function exposeGlobals(globals: {
 }
 
 export {
-  mergeConfig,
+  merge, // Expose merge function through a facade
   mergeStorybook,
   loadJavaScript,
   loadTypeScript,
@@ -581,6 +566,7 @@ export {
   loadImages,
   loadHTML,
   loadYAML,
+  extractCSS,
   dontParse,
   webpackDevServer,
   trackBundleSize,
