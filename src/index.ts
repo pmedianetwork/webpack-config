@@ -8,7 +8,10 @@ import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import {
+  CleanWebpackPlugin,
+  Options as CleanWebpackPluginOptions,
+} from "clean-webpack-plugin";
 // @ts-ignore: Figure out how to type this
 import PacktrackerPlugin from "@packtracker/webpack-plugin";
 import BundleTracker from "webpack-bundle-tracker";
@@ -416,12 +419,14 @@ function minifyCSS(
   };
 }
 
-function cleanOutput(): webpack.Configuration {
+function cleanOutput(
+  options: CleanWebpackPluginOptions = { verbose: true },
+): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
   return {
-    plugins: [new CleanWebpackPlugin({ verbose: true })],
+    plugins: [new CleanWebpackPlugin(options)],
   };
 }
 
