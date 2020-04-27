@@ -187,15 +187,18 @@ function loadYAML(): webpack.Configuration {
   };
 }
 
-const cssLoader = {
-  loader: "css-loader",
-  options: {
-    modules: {
-      mode: "global",
-      localIdentName: "[local]-[hash:base64:5]",
+function cssLoader(options: { importLoaders?: number } = {}) {
+  return {
+    loader: "css-loader",
+    options: {
+      ...options,
+      modules: {
+        mode: "global",
+        localIdentName: "[local]-[hash:base64:5]",
+      },
     },
-  },
-};
+  };
+}
 
 type PostCSSPlugin = (id: string) => any;
 
@@ -216,7 +219,7 @@ function loadLess({
               mode === "production"
                 ? MiniCssExtractPlugin.loader
                 : "style-loader",
-              cssLoader,
+              cssLoader(postCssPlugins && { importLoaders: 1 }),
               postCssPlugins ? postCssLoader(postCssPlugins) : "",
               "less-loader",
             ].filter(Boolean),
@@ -245,7 +248,7 @@ function loadCSS({
               mode === "production"
                 ? MiniCssExtractPlugin.loader
                 : "style-loader",
-              cssLoader,
+              cssLoader(postCssPlugins && { importLoaders: 1 }),
               postCssPlugins ? postCssLoader(postCssPlugins) : "",
             ].filter(Boolean),
           },
