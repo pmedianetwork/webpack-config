@@ -78,13 +78,19 @@ function loadJavaScript(_a) {
                         },
                     },
                 },
-                // In case modules already have source maps, load them as well.
-                { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
             ],
         },
     };
 }
 exports.loadJavaScript = loadJavaScript;
+function loadSourceMaps() {
+    return {
+        module: {
+            rules: [{ enforce: "pre", test: /\.js$/, loader: "source-map-loader" }],
+        },
+    };
+}
+exports.loadSourceMaps = loadSourceMaps;
 // Now this portion will consume TS configuration from the project but
 // we could consider moving it here if it looks like it's uniform between
 // consumers.

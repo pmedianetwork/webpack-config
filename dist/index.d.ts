@@ -13,6 +13,7 @@ declare function mergeStorybook({ mode, config, userConfig, }: {
 declare function loadJavaScript({ include, }?: {
     include?: webpack.RuleSetCondition;
 }): webpack.Configuration;
+declare function loadSourceMaps(): webpack.Configuration;
 declare function loadTypeScript(): webpack.Configuration;
 declare function loadJSON(): webpack.Configuration;
 declare function loadHTML(): webpack.Configuration;
@@ -69,4 +70,4 @@ declare function exposeGlobals(globals: {
     [name: string]: string;
 }): webpack.Configuration;
 export { merge, // Expose merge function through a facade
-mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, extractCSS, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };
+mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, loadSourceMaps, extractCSS, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };
