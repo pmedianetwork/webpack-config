@@ -92,9 +92,15 @@ function loadJavaScript({
             },
           },
         },
-        // In case modules already have source maps, load them as well.
-        { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
       ],
+    },
+  };
+}
+
+function loadSourceMaps(): webpack.Configuration {
+  return {
+    module: {
+      rules: [{ enforce: "pre", test: /\.js$/, loader: "source-map-loader" }],
     },
   };
 }
@@ -566,6 +572,7 @@ export {
   loadImages,
   loadHTML,
   loadYAML,
+  loadSourceMaps,
   extractCSS,
   dontParse,
   webpackDevServer,
