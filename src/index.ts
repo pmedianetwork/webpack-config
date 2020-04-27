@@ -82,12 +82,12 @@ function loadJavaScript({
 } = {}): webpack.Configuration {
   return {
     resolve: {
-      extensions: [".js"],
+      extensions: [".jsx", ".js"],
     },
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.jsx?$/,
           use: "babel-loader",
           include,
           exclude: /node_modules/,
@@ -155,7 +155,13 @@ const cssLoader = {
   },
 };
 
-function loadLess(): webpack.Configuration {
+type PostCSSPlugin = (id: string) => any;
+
+function loadLess({
+  postCssPlugins,
+}: {
+  postCssPlugins?: PostCSSPlugin[];
+} = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return merge(
@@ -169,8 +175,9 @@ function loadLess(): webpack.Configuration {
                 ? MiniCssExtractPlugin.loader
                 : "style-loader",
               cssLoader,
+              postCssPlugins ? postCssLoader(postCssPlugins) : "",
               "less-loader",
-            ],
+            ].filter(Boolean),
           },
         ],
       },
@@ -179,7 +186,11 @@ function loadLess(): webpack.Configuration {
   );
 }
 
-function loadCSS(): webpack.Configuration {
+function loadCSS({
+  postCssPlugins,
+}: {
+  postCssPlugins?: PostCSSPlugin[];
+} = {}): webpack.Configuration {
   const mode = process.env.NODE_ENV;
 
   return merge(
@@ -193,13 +204,23 @@ function loadCSS(): webpack.Configuration {
                 ? MiniCssExtractPlugin.loader
                 : "style-loader",
               cssLoader,
-            ],
+              postCssPlugins ? postCssLoader(postCssPlugins) : "",
+            ].filter(Boolean),
           },
         ],
       },
     },
     extractCSS(),
   );
+}
+
+function postCssLoader(plugins: PostCSSPlugin[]) {
+  return {
+    loader: "postcss-loader",
+    options: {
+      plugins,
+    },
+  };
 }
 
 function extractCSS(): webpack.Configuration {
@@ -228,7 +249,30 @@ function loadFonts(options: FileLoaderOptions = {}): webpack.Configuration {
     module: {
       rules: [
         {
-          test: /\.(woff|woff2|ttf|eot)($|\?)/,
+          test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              name: "[name].[ext]",
+              mimetype: "application/font-woff",
+              ...options,
+            },
+          },
+        },
+        {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              mimetype: "application/octet-stream",
+              ...options,
+            },
+          },
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
           use: {
             loader: "file-loader",
             options: { name: "[name].[ext]", ...options },
@@ -244,10 +288,22 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
     module: {
       rules: [
         {
-          test: /\.(svg|png|gif|ico|jpg)($|\?)/,
+          test: /\.(png|gif|ico|jpg)($|\?)/,
           use: {
-            loader: "file-loader",
-            options: { name: "[name].[ext]", ...options },
+            loader: "url-loader",
+            options: { limit: 15000, name: "[name].[ext]", ...options },
+          },
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 15000,
+              name: "[name].[ext]",
+              mimetype: "image/svg+xml",
+              ...options,
+            },
           },
         },
       ],
@@ -364,11 +420,37 @@ function emitStats({
   };
 }
 
-function provideGlobals(globals: {
+type Globals = {
   [key: string]: any;
-}): webpack.Configuration {
+};
+
+function provideGlobals(globals: Globals): webpack.Configuration {
   return {
     plugins: [new webpack.ProvidePlugin(globals)],
+  };
+}
+
+function injectGlobal({
+  test,
+  globals,
+}: {
+  test: webpack.RuleSetRule["test"];
+  globals: Globals;
+}): webpack.Configuration {
+  return {
+    module: {
+      rules: [
+        {
+          test,
+          use: [
+            {
+              loader: "imports-loader",
+              options: globals,
+            },
+          ],
+        },
+      ],
+    },
   };
 }
 
@@ -404,6 +486,14 @@ function uploadSourcemapsToSentry() {
   };
 }
 
+function exposeEnvironmentVariables(
+  environmentVariables: string[],
+): webpack.Configuration {
+  return {
+    plugins: [new webpack.EnvironmentPlugin(environmentVariables)],
+  };
+}
+
 export {
   mergeConfig,
   mergeStorybook,
@@ -421,6 +511,8 @@ export {
   minifyCSS,
   cleanOutput,
   emitStats,
+  injectGlobal,
   provideGlobals,
   uploadSourcemapsToSentry,
+  exposeEnvironmentVariables,
 };
