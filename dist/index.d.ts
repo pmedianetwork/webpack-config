@@ -5,7 +5,6 @@ import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
-declare function mergeConfig(): merge.ConfigurationMergeFunction;
 declare function mergeStorybook({ mode, config, userConfig, }: {
     mode: "DEVELOPMENT" | "PRODUCTION";
     config: webpack.Configuration;
@@ -24,6 +23,9 @@ declare function loadLess({ postCssPlugins, }?: {
 }): webpack.Configuration;
 declare function loadCSS({ postCssPlugins, }?: {
     postCssPlugins?: PostCSSPlugin[];
+}): webpack.Configuration;
+declare function extractCSS({ filename, }?: {
+    filename?: string;
 }): webpack.Configuration;
 declare type FileLoaderOptions = {
     name?: string;
@@ -66,4 +68,5 @@ declare function exposeEnvironmentVariables(environmentVariables: string[]): web
 declare function exposeGlobals(globals: {
     [name: string]: string;
 }): webpack.Configuration;
-export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };
+export { merge, // Expose merge function through a facade
+mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, extractCSS, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };

@@ -8,6 +8,7 @@ var tslib_1 = require("tslib");
  */
 var webpack_1 = tslib_1.__importDefault(require("webpack"));
 var webpack_merge_1 = tslib_1.__importDefault(require("webpack-merge"));
+exports.merge = webpack_merge_1.default;
 var mini_css_extract_plugin_1 = tslib_1.__importDefault(require("mini-css-extract-plugin"));
 var optimize_css_assets_webpack_plugin_1 = tslib_1.__importDefault(require("optimize-css-assets-webpack-plugin"));
 var clean_webpack_plugin_1 = require("clean-webpack-plugin");
@@ -16,15 +17,6 @@ var webpack_plugin_1 = tslib_1.__importDefault(require("@packtracker/webpack-plu
 var webpack_bundle_tracker_1 = tslib_1.__importDefault(require("webpack-bundle-tracker"));
 var terser_webpack_plugin_1 = tslib_1.__importDefault(require("terser-webpack-plugin"));
 var webpack_plugin_2 = tslib_1.__importDefault(require("@sentry/webpack-plugin"));
-// This function returns a custom version of webpack-merge that's able to detect
-// duplicate mini-css-extract-plugins and make sure only one remains in the
-// configuration
-function mergeConfig() {
-    return webpack_merge_1.default({
-        customizeArray: webpack_merge_1.default.unique("plugins", ["MiniCssExtractPlugin"], function (plugin) { return plugin.constructor && plugin.constructor.name; }),
-    });
-}
-exports.mergeConfig = mergeConfig;
 // This function should be used for merging Storybook base configuration with
 // project specific configuration. It's the place where Storybook can be optimized
 // further.
@@ -167,19 +159,20 @@ function loadYAML() {
     };
 }
 exports.loadYAML = loadYAML;
-var cssLoader = {
-    loader: "css-loader",
-    options: {
-        modules: {
-            mode: "global",
-            localIdentName: "[local]-[hash:base64:5]",
-        },
-    },
-};
+function cssLoader(options) {
+    if (options === void 0) { options = {}; }
+    return {
+        loader: "css-loader",
+        options: tslib_1.__assign(tslib_1.__assign({}, options), { modules: {
+                mode: "global",
+                localIdentName: "[local]-[hash:base64:5]",
+            } }),
+    };
+}
 function loadLess(_a) {
     var postCssPlugins = (_a === void 0 ? {} : _a).postCssPlugins;
     var mode = process.env.NODE_ENV;
-    return webpack_merge_1.default({
+    return {
         module: {
             rules: [
                 {
@@ -188,20 +181,20 @@ function loadLess(_a) {
                         mode === "production"
                             ? mini_css_extract_plugin_1.default.loader
                             : "style-loader",
-                        cssLoader,
+                        cssLoader(postCssPlugins && { importLoaders: 1 }),
                         postCssPlugins ? postCssLoader(postCssPlugins) : "",
                         "less-loader",
                     ].filter(Boolean),
                 },
             ],
         },
-    }, extractCSS());
+    };
 }
 exports.loadLess = loadLess;
 function loadCSS(_a) {
     var postCssPlugins = (_a === void 0 ? {} : _a).postCssPlugins;
     var mode = process.env.NODE_ENV;
-    return webpack_merge_1.default({
+    return {
         module: {
             rules: [
                 {
@@ -210,13 +203,13 @@ function loadCSS(_a) {
                         mode === "production"
                             ? mini_css_extract_plugin_1.default.loader
                             : "style-loader",
-                        cssLoader,
+                        cssLoader(postCssPlugins && { importLoaders: 1 }),
                         postCssPlugins ? postCssLoader(postCssPlugins) : "",
                     ].filter(Boolean),
                 },
             ],
         },
-    }, extractCSS());
+    };
 }
 exports.loadCSS = loadCSS;
 function postCssLoader(plugins) {
@@ -227,16 +220,18 @@ function postCssLoader(plugins) {
         },
     };
 }
-function extractCSS() {
+function extractCSS(_a) {
+    var filename = (_a === void 0 ? {} : _a).filename;
     var mode = process.env.NODE_ENV;
     return {
         plugins: [
             new mini_css_extract_plugin_1.default({
-                filename: (mode === "production" ? "[name]-[hash]" : "[name]") + ".css",
+                filename: (filename || mode === "production" ? "[name]-[hash]" : "[name]") + ".css",
             }),
         ],
     };
 }
+exports.extractCSS = extractCSS;
 function loadFonts(options) {
     if (options === void 0) { options = {}; }
     return {
