@@ -75,6 +75,14 @@ function loadJavaScript(_a) {
                     use: "babel-loader",
                     include: include,
                     exclude: /node_modules/,
+                    options: {
+                        // Use cache to speed up recompilation.
+                        // The default cache is written to node_modules/.cache/babel-loader
+                        //
+                        // See https://www.npmjs.com/package/babel-loader#options for further
+                        // information.
+                        cacheDirectory: true,
+                    },
                 },
                 // In case modules already have source maps, load them as well.
                 { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
@@ -88,6 +96,9 @@ exports.loadJavaScript = loadJavaScript;
 // consumers.
 function loadTypeScript() {
     var mode = process.env.NODE_ENV;
+    // TODO: It's worth benchmarking babel-loader here. Given there's no
+    // full feature-parity, you should enable isolatedModules in your TS
+    // settings if you go this way.
     return {
         resolve: {
             extensions: [".tsx", ".ts"],
