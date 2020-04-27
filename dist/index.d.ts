@@ -2,6 +2,7 @@ import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 declare function mergeConfig(): merge.ConfigurationMergeFunction;
@@ -39,7 +40,7 @@ declare function minifyJavaScript({ terserOptions, }?: {
     terserOptions: TerserPlugin.TerserPluginOptions["terserOptions"];
 }): webpack.Configuration;
 declare function minifyCSS(options?: OptimizeCssAssetsPlugin.Options): webpack.Configuration;
-declare function cleanOutput(): webpack.Configuration;
+declare function cleanOutput(options?: CleanWebpackPluginOptions): webpack.Configuration;
 declare function emitStats({ path, filename, publicPath, logTime, }: {
     path: string;
     filename: string;

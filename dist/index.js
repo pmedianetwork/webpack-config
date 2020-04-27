@@ -338,12 +338,13 @@ function minifyCSS(options) {
     };
 }
 exports.minifyCSS = minifyCSS;
-function cleanOutput() {
+function cleanOutput(options) {
+    if (options === void 0) { options = { verbose: true }; }
     if (process.env.STORYBOOK) {
         return {};
     }
     return {
-        plugins: [new clean_webpack_plugin_1.CleanWebpackPlugin({ verbose: true })],
+        plugins: [new clean_webpack_plugin_1.CleanWebpackPlugin(options)],
     };
 }
 exports.cleanOutput = cleanOutput;
