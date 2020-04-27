@@ -505,6 +505,21 @@ function exposeEnvironmentVariables(
   };
 }
 
+function exposeGlobals(globals: {
+  [name: string]: string;
+}): webpack.Configuration {
+  return {
+    module: {
+      rules: Object.keys(globals).map((test) => {
+        return {
+          test,
+          options: globals[test],
+        };
+      }),
+    },
+  };
+}
+
 export {
   mergeConfig,
   mergeStorybook,
@@ -526,4 +541,5 @@ export {
   provideGlobals,
   uploadSourcemapsToSentry,
   exposeEnvironmentVariables,
+  exposeGlobals,
 };
