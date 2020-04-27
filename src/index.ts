@@ -159,6 +159,32 @@ function loadJSON(): webpack.Configuration {
   };
 }
 
+function loadHTML(): webpack.Configuration {
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.html$/,
+          loader: "html-loader",
+        },
+      ],
+    },
+  };
+}
+
+function loadYAML(): webpack.Configuration {
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.(yml|yaml)$/,
+          use: ["json-loader", "yaml-loader"],
+        },
+      ],
+    },
+  };
+}
+
 const cssLoader = {
   loader: "css-loader",
   options: {
@@ -545,6 +571,8 @@ export {
   loadCSS,
   loadFonts,
   loadImages,
+  loadHTML,
+  loadYAML,
   dontParse,
   webpackDevServer,
   trackBundleSize,
