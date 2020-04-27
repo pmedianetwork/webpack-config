@@ -139,6 +139,32 @@ function loadJSON() {
     };
 }
 exports.loadJSON = loadJSON;
+function loadHTML() {
+    return {
+        module: {
+            rules: [
+                {
+                    test: /\.html$/,
+                    loader: "html-loader",
+                },
+            ],
+        },
+    };
+}
+exports.loadHTML = loadHTML;
+function loadYAML() {
+    return {
+        module: {
+            rules: [
+                {
+                    test: /\.(yml|yaml)$/,
+                    use: ["json-loader", "yaml-loader"],
+                },
+            ],
+        },
+    };
+}
+exports.loadYAML = loadYAML;
 var cssLoader = {
     loader: "css-loader",
     options: {

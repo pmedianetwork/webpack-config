@@ -16,6 +16,8 @@ declare function loadJavaScript({ include, }?: {
 }): webpack.Configuration;
 declare function loadTypeScript(): webpack.Configuration;
 declare function loadJSON(): webpack.Configuration;
+declare function loadHTML(): webpack.Configuration;
+declare function loadYAML(): webpack.Configuration;
 declare type PostCSSPlugin = (id: string) => any;
 declare function loadLess({ postCssPlugins, }?: {
     postCssPlugins?: PostCSSPlugin[];
@@ -64,4 +66,4 @@ declare function exposeEnvironmentVariables(environmentVariables: string[]): web
 declare function exposeGlobals(globals: {
     [name: string]: string;
 }): webpack.Configuration;
-export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };
+export { mergeConfig, mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };
