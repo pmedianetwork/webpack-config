@@ -91,16 +91,18 @@ function loadJavaScript({
       rules: [
         {
           test: /\.jsx?$/,
-          use: "babel-loader",
           include,
           exclude: /node_modules/,
-          options: {
-            // Use cache to speed up recompilation.
-            // The default cache is written to node_modules/.cache/babel-loader
-            //
-            // See https://www.npmjs.com/package/babel-loader#options for further
-            // information.
-            cacheDirectory: true,
+          use: {
+            loader: "babel-loader",
+            options: {
+              // Use cache to speed up recompilation.
+              // The default cache is written to node_modules/.cache/babel-loader
+              //
+              // See https://www.npmjs.com/package/babel-loader#options for further
+              // information.
+              cacheDirectory: true,
+            },
           },
         },
         // In case modules already have source maps, load them as well.
