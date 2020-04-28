@@ -330,6 +330,15 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
             options: { limit: 15000, name: "[name].[ext]", ...options },
           },
         },
+        // For svg loaded from jsx/tsx, process it as a React component
+        // More info: https://www.npmjs.com/package/@svgr/webpack
+        {
+          test: /\.(svg)$/,
+          issuer: {
+            test: /\.(jsx|tsx)$/,
+          },
+          use: ["@svgr/webpack", "file-loader"],
+        },
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
           use: {
