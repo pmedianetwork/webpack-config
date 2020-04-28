@@ -518,9 +518,9 @@ function injectGlobal({
 // It's an adapter to Sentry CLI and takes care of uploading
 // source maps to Sentry service.
 function uploadSourcemapsToSentry() {
-  if (!process.env.SENTRY_ORG) {
+  if (!process.env.FRONTEND_SENTRY_DSN) {
     // eslint-disable-next-line no-console
-    console.warn("Sentry: Missing environment variables!");
+    console.warn("Sentry: Missing FRONTEND_SENTRY_DSN!");
 
     return {};
   }
@@ -529,11 +529,10 @@ function uploadSourcemapsToSentry() {
     plugins: [
       // Map Sentry environment variables from env to webpack so they are available
       // to Sentry.init at the application (remember set it up!).
-      new webpack.EnvironmentPlugin([
-        "SENTRY_DSN",
-        "SENTRY_PUBLIC_KEY",
-        "SENTRY_PROJECT_ID",
-      ]),
+      // Note the FRONTEND prefix at the env!
+      new webpack.DefinePlugin({
+        "process.env.SENTRY_DSN": `"${process.env.FRONTEND_SENTRY_DSN}"`,
+      }),
       // Send source maps to Sentry using the CLI through
       // a webpack plugin.
       new SentryCliPlugin({
