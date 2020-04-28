@@ -335,10 +335,11 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
         {
           test: /\.(svg)$/,
           issuer: {
-            test: /\.(jsx|tsx)$/,
+            test: /\.(js|jsx|ts|tsx)$/,
           },
-          use: ["@svgr/webpack", "file-loader"],
+          use: ["@svgr/webpack", "url-loader"],
         },
+        // For anything else than above, use inlining behavior (<15k -> inline)
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
           use: {
