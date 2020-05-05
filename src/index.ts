@@ -544,7 +544,11 @@ function uploadSourcemapsToSentry() {
 }
 
 function exposeEnvironmentVariables(
-  environmentVariables: string[],
+  environmentVariables:
+    | string[]
+    | {
+        [name: string]: any;
+      },
 ): webpack.Configuration {
   return {
     plugins: [new webpack.EnvironmentPlugin(environmentVariables)],
