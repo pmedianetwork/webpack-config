@@ -281,6 +281,14 @@ function loadImages(options) {
                         options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]" }, options),
                     },
                 },
+                // For anything else than js/ts, use inlining behavior (<15k -> inline)
+                {
+                    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                    use: {
+                        loader: "url-loader",
+                        options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]", mimetype: "image/svg+xml" }, options),
+                    },
+                },
                 // For svg loaded from jsx/tsx, process it as a React component
                 // More info: https://www.npmjs.com/package/@svgr/webpack
                 {
@@ -288,14 +296,8 @@ function loadImages(options) {
                     issuer: {
                         test: /\.(js|jsx|ts|tsx)$/,
                     },
-                    use: ["@svgr/webpack", "url-loader"],
-                },
-                // For anything else than above, use inlining behavior (<15k -> inline)
-                {
-                    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
                     use: {
-                        loader: "url-loader",
-                        options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]", mimetype: "image/svg+xml" }, options),
+                        loader: "@svgr/webpack",
                     },
                 },
             ],
