@@ -330,16 +330,7 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
             options: { limit: 15000, name: "[name].[ext]", ...options },
           },
         },
-        // For svg loaded from jsx/tsx, process it as a React component
-        // More info: https://www.npmjs.com/package/@svgr/webpack
-        {
-          test: /\.(svg)$/,
-          issuer: {
-            test: /\.(js|jsx|ts|tsx)$/,
-          },
-          use: ["@svgr/webpack", "url-loader"],
-        },
-        // For anything else than above, use inlining behavior (<15k -> inline)
+        // For anything else than js/ts, use inlining behavior (<15k -> inline)
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
           use: {
@@ -350,6 +341,17 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
               mimetype: "image/svg+xml",
               ...options,
             },
+          },
+        },
+        // For svg loaded from jsx/tsx, process it as a React component
+        // More info: https://www.npmjs.com/package/@svgr/webpack
+        {
+          test: /\.(svg)$/,
+          issuer: {
+            test: /\.(js|jsx|ts|tsx)$/,
+          },
+          use: {
+            loader: "@svgr/webpack",
           },
         },
       ],
