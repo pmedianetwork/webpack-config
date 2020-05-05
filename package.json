@@ -4,6 +4,9 @@
   "description": "This repository contains configuration that can be shared between applications using webpack for bundling.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "webpack-dev-server": "node_modules/.bin/webpack-dev-server"
+  },
   "files": [
     "dist/index.js",
     "dist/index.d.ts",
