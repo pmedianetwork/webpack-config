@@ -65,7 +65,9 @@ declare function uploadSourcemapsToSentry(): {
 } | {
     plugins: (webpack.DefinePlugin | SentryCliPlugin)[];
 };
-declare function exposeEnvironmentVariables(environmentVariables: string[]): webpack.Configuration;
+declare function exposeEnvironmentVariables(environmentVariables: string[] | {
+    [name: string]: any;
+}): webpack.Configuration;
 declare function exposeGlobals(globals: {
     [name: string]: string;
 }): webpack.Configuration;
