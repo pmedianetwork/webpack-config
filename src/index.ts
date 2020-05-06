@@ -319,7 +319,12 @@ function loadFonts(options: FileLoaderOptions = {}): webpack.Configuration {
   };
 }
 
-function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
+// TODO: If the interface grows, either refactor into separate functions
+// or change into an object form
+function loadImages(
+  options: FileLoaderOptions = {},
+  svgLoader = "@svgr/webpack",
+): webpack.Configuration {
   return {
     module: {
       rules: [
@@ -338,7 +343,7 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
             test: /\.(js|jsx|ts|tsx)$/,
           },
           use: {
-            loader: "@svgr/webpack",
+            loader: svgLoader,
           },
         },
         // Use inlining behavior (<15k -> inline) for css/less/scss
