@@ -269,8 +269,11 @@ function loadFonts(options) {
     };
 }
 exports.loadFonts = loadFonts;
-function loadImages(options) {
+// TODO: If the interface grows, either refactor into separate functions
+// or change into an object form
+function loadImages(options, svgLoader) {
     if (options === void 0) { options = {}; }
+    if (svgLoader === void 0) { svgLoader = "@svgr/webpack"; }
     return {
         module: {
             rules: [
@@ -289,7 +292,7 @@ function loadImages(options) {
                         test: /\.(js|jsx|ts|tsx)$/,
                     },
                     use: {
-                        loader: "@svgr/webpack",
+                        loader: svgLoader,
                     },
                 },
                 // Use inlining behavior (<15k -> inline) for css/less/scss
