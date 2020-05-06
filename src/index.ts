@@ -330,8 +330,23 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
             options: { limit: 15000, name: "[name].[ext]", ...options },
           },
         },
-        // For anything else than js/ts, use inlining behavior (<15k -> inline)
+        // For svg loaded from jsx/tsx, process it as a React component
+        // More info: https://www.npmjs.com/package/@svgr/webpack
+        //
+        // This gets applied after inlining below.
         {
+          test: /\.(svg)$/,
+          issuer: {
+            test: /\.(js|jsx|ts|tsx)$/,
+          },
+          use: {
+            loader: "@svgr/webpack",
+          },
+        },
+        // Use inlining behavior (<15k -> inline), this gets applied first
+        {
+          // Note that the regexp is going to match `.svg` too in addition to
+          // ones with a version suffix!
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
           use: {
             loader: "url-loader",
@@ -341,17 +356,6 @@ function loadImages(options: FileLoaderOptions = {}): webpack.Configuration {
               mimetype: "image/svg+xml",
               ...options,
             },
-          },
-        },
-        // For svg loaded from jsx/tsx, process it as a React component
-        // More info: https://www.npmjs.com/package/@svgr/webpack
-        {
-          test: /\.(svg)$/,
-          issuer: {
-            test: /\.(js|jsx|ts|tsx)$/,
-          },
-          use: {
-            loader: "@svgr/webpack",
           },
         },
       ],
