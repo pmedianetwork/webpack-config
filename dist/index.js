@@ -281,16 +281,10 @@ function loadImages(options) {
                         options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]" }, options),
                     },
                 },
-                // For anything else than js/ts, use inlining behavior (<15k -> inline)
-                {
-                    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                    use: {
-                        loader: "url-loader",
-                        options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]", mimetype: "image/svg+xml" }, options),
-                    },
-                },
                 // For svg loaded from jsx/tsx, process it as a React component
                 // More info: https://www.npmjs.com/package/@svgr/webpack
+                //
+                // This gets applied after inlining below.
                 {
                     test: /\.(svg)$/,
                     issuer: {
@@ -298,6 +292,16 @@ function loadImages(options) {
                     },
                     use: {
                         loader: "@svgr/webpack",
+                    },
+                },
+                // Use inlining behavior (<15k -> inline), this gets applied first
+                {
+                    // Note that the regexp is going to match `.svg` too in addition to
+                    // ones with a version suffix!
+                    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                    use: {
+                        loader: "url-loader",
+                        options: tslib_1.__assign({ limit: 15000, name: "[name].[ext]", mimetype: "image/svg+xml" }, options),
                     },
                 },
             ],
