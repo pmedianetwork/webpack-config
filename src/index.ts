@@ -264,7 +264,11 @@ function extractCSS({
     plugins: [
       new MiniCssExtractPlugin({
         filename: `${
-          filename || mode === "production" ? "[name]-[hash]" : "[name]"
+          filename
+            ? filename
+            : mode === "production"
+            ? "[name]-[hash]"
+            : "[name]"
         }.css`,
       }),
     ],
