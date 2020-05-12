@@ -232,7 +232,11 @@ function extractCSS(_a) {
     return {
         plugins: [
             new mini_css_extract_plugin_1.default({
-                filename: (filename || mode === "production" ? "[name]-[hash]" : "[name]") + ".css",
+                filename: (filename
+                    ? filename
+                    : mode === "production"
+                        ? "[name]-[hash]"
+                        : "[name]") + ".css",
             }),
         ],
     };
