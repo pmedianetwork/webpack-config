@@ -58,7 +58,7 @@ function loadJavaScript(_a) {
     var include = (_a === void 0 ? {} : _a).include;
     return {
         resolve: {
-            extensions: [".jsx", ".js"],
+            extensions: [".jsx", ".mjs", ".js"],
         },
         module: {
             rules: [
