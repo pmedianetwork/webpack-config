@@ -72,7 +72,7 @@ function loadJavaScript({
 } = {}): webpack.Configuration {
   return {
     resolve: {
-      extensions: [".jsx", ".js"],
+      extensions: [".jsx", ".mjs", ".js"],
     },
     module: {
       rules: [
