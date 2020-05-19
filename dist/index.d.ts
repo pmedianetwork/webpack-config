@@ -10,8 +10,9 @@ declare function mergeStorybook({ mode, config, userConfig, }: {
     config: webpack.Configuration;
     userConfig: webpack.Configuration;
 }): webpack.Configuration;
-declare function loadJavaScript({ include, }?: {
+declare function loadJavaScript({ include, exclude, }?: {
     include?: webpack.RuleSetCondition;
+    exclude?: webpack.RuleSetCondition;
 }): webpack.Configuration;
 declare function loadSourceMaps(): webpack.Configuration;
 declare function loadTypeScript(): webpack.Configuration;

@@ -55,7 +55,7 @@ exports.mergeStorybook = mergeStorybook;
 //  extends: "@pmedianetwork/webpack-config/.babelrc"
 // }
 function loadJavaScript(_a) {
-    var include = (_a === void 0 ? {} : _a).include;
+    var _b = _a === void 0 ? {} : _a, include = _b.include, exclude = _b.exclude;
     return {
         resolve: {
             extensions: [".jsx", ".mjs", ".js"],
@@ -65,7 +65,7 @@ function loadJavaScript(_a) {
                 {
                     test: /\.jsx?$/,
                     include: include,
-                    exclude: /node_modules/,
+                    exclude: exclude || /node_modules/,
                     use: {
                         loader: "babel-loader",
                         options: {
