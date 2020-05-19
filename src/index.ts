@@ -67,8 +67,10 @@ function mergeStorybook({
 // }
 function loadJavaScript({
   include,
+  exclude,
 }: {
   include?: webpack.RuleSetCondition;
+  exclude?: webpack.RuleSetCondition;
 } = {}): webpack.Configuration {
   return {
     resolve: {
@@ -79,7 +81,7 @@ function loadJavaScript({
         {
           test: /\.jsx?$/,
           include,
-          exclude: /node_modules/,
+          exclude: exclude || /node_modules/,
           use: {
             loader: "babel-loader",
             options: {
