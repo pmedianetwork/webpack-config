@@ -573,17 +573,20 @@ function exposeEnvironmentVariables(
   };
 }
 
-function exposeGlobals(globals: {
-  [name: string]: string;
-}): webpack.Configuration {
+function exposeGlobals(
+  globals: {
+    module: string;
+    global: string;
+  }[],
+): webpack.Configuration {
   return {
     module: {
-      rules: Object.keys(globals).map((test) => {
+      rules: globals.map(({ module, global }) => {
         return {
-          test,
+          test: module,
           use: {
             loader: "expose-loader",
-            options: globals[test],
+            options: global,
           },
         };
       }),
