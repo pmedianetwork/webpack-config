@@ -70,7 +70,8 @@ declare function exposeEnvironmentVariables(environmentVariables: string[] | {
     [name: string]: any;
 }): webpack.Configuration;
 declare function exposeGlobals(globals: {
-    [name: string]: string;
-}): webpack.Configuration;
+    module: string;
+    global: string;
+}[]): webpack.Configuration;
 export { merge, // Expose merge function through a facade
 mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, loadSourceMaps, extractCSS, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };

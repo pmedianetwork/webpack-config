@@ -471,12 +471,13 @@ exports.exposeEnvironmentVariables = exposeEnvironmentVariables;
 function exposeGlobals(globals) {
     return {
         module: {
-            rules: Object.keys(globals).map(function (test) {
+            rules: globals.map(function (_a) {
+                var module = _a.module, global = _a.global;
                 return {
-                    test: test,
+                    test: module,
                     use: {
                         loader: "expose-loader",
-                        options: globals[test],
+                        options: global,
                     },
                 };
             }),
