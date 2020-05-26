@@ -1,6 +1,7 @@
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
+import BrotliPlugin from "brotli-webpack-plugin";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
@@ -73,5 +74,6 @@ declare function exposeGlobals(globals: {
     module: string;
     global: string;
 }[]): webpack.Configuration;
+declare function compressWithBrotli(options?: BrotliPlugin.Options): webpack.Configuration;
 export { merge, // Expose merge function through a facade
-mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, loadSourceMaps, extractCSS, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, };
+mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, loadSourceMaps, extractCSS, dontParse, webpackDevServer, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, compressWithBrotli, };

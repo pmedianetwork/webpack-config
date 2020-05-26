@@ -9,6 +9,7 @@ var tslib_1 = require("tslib");
 var webpack_1 = tslib_1.__importDefault(require("webpack"));
 var webpack_merge_1 = tslib_1.__importDefault(require("webpack-merge"));
 exports.merge = webpack_merge_1.default;
+var brotli_webpack_plugin_1 = tslib_1.__importDefault(require("brotli-webpack-plugin"));
 var mini_css_extract_plugin_1 = tslib_1.__importDefault(require("mini-css-extract-plugin"));
 var optimize_css_assets_webpack_plugin_1 = tslib_1.__importDefault(require("optimize-css-assets-webpack-plugin"));
 var clean_webpack_plugin_1 = require("clean-webpack-plugin");
@@ -485,3 +486,10 @@ function exposeGlobals(globals) {
     };
 }
 exports.exposeGlobals = exposeGlobals;
+function compressWithBrotli(options) {
+    if (options === void 0) { options = {}; }
+    return {
+        plugins: [new brotli_webpack_plugin_1.default(options)],
+    };
+}
+exports.compressWithBrotli = compressWithBrotli;
