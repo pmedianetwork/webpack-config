@@ -6,6 +6,7 @@
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import merge from "webpack-merge";
+import BrotliPlugin from "brotli-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import {
@@ -594,6 +595,14 @@ function exposeGlobals(
   };
 }
 
+function compressWithBrotli(
+  options: BrotliPlugin.Options = {},
+): webpack.Configuration {
+  return {
+    plugins: [new BrotliPlugin(options)],
+  };
+}
+
 export {
   merge, // Expose merge function through a facade
   mergeStorybook,
@@ -620,4 +629,5 @@ export {
   uploadSourcemapsToSentry,
   exposeEnvironmentVariables,
   exposeGlobals,
+  compressWithBrotli,
 };
