@@ -488,6 +488,9 @@ function exposeGlobals(globals) {
 exports.exposeGlobals = exposeGlobals;
 function compressWithBrotli(options) {
     if (options === void 0) { options = {}; }
+    if (process.env.STORYBOOK || !process.env.CI) {
+        return {};
+    }
     return {
         plugins: [new brotli_webpack_plugin_1.default(options)],
     };
