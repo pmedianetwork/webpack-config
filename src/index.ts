@@ -598,7 +598,7 @@ function exposeGlobals(
 function compressWithBrotli(
   options: BrotliPlugin.Options = {},
 ): webpack.Configuration {
-  if (process.env.STORYBOOK || !process.env.CI || !process.env.STAGING) {
+  if (process.env.STORYBOOK || !process.env.CI || process.env.STAGING) {
     return {};
   }
 
