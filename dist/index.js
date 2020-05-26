@@ -491,6 +491,7 @@ function compressWithBrotli(options) {
     if (process.env.STORYBOOK || !process.env.CI || process.env.STAGING) {
         return {};
     }
+    console.log("Applying brotli compression");
     return {
         plugins: [new brotli_webpack_plugin_1.default(options)],
     };
