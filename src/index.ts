@@ -602,6 +602,8 @@ function compressWithBrotli(
     return {};
   }
 
+  console.log("Applying brotli compression");
+
   return {
     plugins: [new BrotliPlugin(options)],
   };
