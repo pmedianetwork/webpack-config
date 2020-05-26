@@ -598,6 +598,10 @@ function exposeGlobals(
 function compressWithBrotli(
   options: BrotliPlugin.Options = {},
 ): webpack.Configuration {
+  if (process.env.STORYBOOK || !process.env.CI) {
+    return {};
+  }
+
   return {
     plugins: [new BrotliPlugin(options)],
   };
