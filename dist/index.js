@@ -488,7 +488,7 @@ function exposeGlobals(globals) {
 exports.exposeGlobals = exposeGlobals;
 function compressWithBrotli(options) {
     if (options === void 0) { options = {}; }
-    if (process.env.STORYBOOK || !process.env.CI) {
+    if (process.env.STORYBOOK || !process.env.CI || !process.env.STAGING) {
         return {};
     }
     return {
