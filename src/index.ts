@@ -349,9 +349,7 @@ function loadImages(
           issuer: {
             test: /\.(js|jsx|ts|tsx)$/,
           },
-          use: {
-            loader: svgLoader,
-          },
+          use: svgLoader,
         },
         // Use inlining behavior (<15k -> inline) for css/less/scss
         {
