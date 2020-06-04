@@ -57,6 +57,8 @@ function mergeStorybook({
   newConfig.resolve.extensions = userConfig?.resolve?.extensions;
   // @ts-ignore
   newConfig.resolve.modules = userConfig?.resolve?.modules;
+  // @ts-ignore
+  newConfig.node = { ...newConfig?.node, ...userConfig?.node };
 
   return newConfig;
 }
