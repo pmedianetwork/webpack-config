@@ -47,6 +47,8 @@ function mergeStorybook(_a) {
     newConfig.resolve.extensions = (_c = userConfig === null || userConfig === void 0 ? void 0 : userConfig.resolve) === null || _c === void 0 ? void 0 : _c.extensions;
     // @ts-ignore
     newConfig.resolve.modules = (_d = userConfig === null || userConfig === void 0 ? void 0 : userConfig.resolve) === null || _d === void 0 ? void 0 : _d.modules;
+    // @ts-ignore
+    newConfig.node = tslib_1.__assign(tslib_1.__assign({}, newConfig === null || newConfig === void 0 ? void 0 : newConfig.node), userConfig === null || userConfig === void 0 ? void 0 : userConfig.node);
     return newConfig;
 }
 exports.mergeStorybook = mergeStorybook;
@@ -438,6 +440,9 @@ exports.injectGlobal = injectGlobal;
 // It's an adapter to Sentry CLI and takes care of uploading
 // source maps to Sentry service.
 function uploadSourcemapsToSentry() {
+    if (process.env.STORYBOOK || !process.env.CI) {
+        return {};
+    }
     if (!process.env.FRONTEND_SENTRY_DSN) {
         // eslint-disable-next-line no-console
         console.warn("Sentry: Missing FRONTEND_SENTRY_DSN!");
