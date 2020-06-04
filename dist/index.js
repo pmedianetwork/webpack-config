@@ -434,18 +434,24 @@ function injectGlobal(_a) {
     };
 }
 exports.injectGlobal = injectGlobal;
-// The Sentry plugin will look for SENTRY_AUTH_TOKEN and
-// other env variables defined at https://docs.sentry.io/cli/configuration/#configuration-values
+// The Sentry plugin will look for FRONTEND_SENTRY_PUBLIC_KEY and
+// FRONTEND_SENTRY_PROJECT_ID in the CI environment so remember to
+// set those!
 //
-// It's an adapter to Sentry CLI and takes care of uploading
+// The part is an adapter to Sentry CLI and takes care of uploading
 // source maps to Sentry service.
 function uploadSourcemapsToSentry() {
     if (process.env.STORYBOOK || !process.env.CI) {
         return {};
     }
-    if (!process.env.FRONTEND_SENTRY_DSN) {
+    if (!process.env.FRONTEND_SENTRY_PUBLIC_KEY) {
         // eslint-disable-next-line no-console
-        console.warn("Sentry: Missing FRONTEND_SENTRY_DSN!");
+        console.warn("Sentry: Missing FRONTEND_SENTRY_PUBLIC_KEY!");
+        return {};
+    }
+    if (!process.env.FRONTEND_SENTRY_PROJECT_ID) {
+        // eslint-disable-next-line no-console
+        console.warn("Sentry: Missing FRONTEND_SENTRY_PROJECT_ID!");
         return {};
     }
     return {
@@ -454,7 +460,8 @@ function uploadSourcemapsToSentry() {
             // to Sentry.init at the application (remember set it up!).
             // Note the FRONTEND prefix at the env!
             new webpack_1.default.DefinePlugin({
-                "process.env.SENTRY_DSN": "\"" + process.env.FRONTEND_SENTRY_DSN + "\"",
+                "process.env.SENTRY_PUBLIC_KEY": "\"" + process.env.FRONTEND_SENTRY_PUBLIC_KEY + "\"",
+                "process.env.SENTRY_PROJECT_ID": "\"" + process.env.FRONTEND_SENTRY_PROJECT_ID + "\"",
             }),
             // Send source maps to Sentry using the CLI through
             // a webpack plugin.
