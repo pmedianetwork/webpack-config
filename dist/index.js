@@ -434,9 +434,8 @@ function injectGlobal(_a) {
     };
 }
 exports.injectGlobal = injectGlobal;
-// The Sentry plugin will look for FRONTEND_SENTRY_PUBLIC_KEY and
-// FRONTEND_SENTRY_PROJECT_ID in the CI environment so remember to
-// set those!
+// The Sentry plugin will look for FRONTEND_SENTRY_DSN in the CI
+// environment so remember to set it when using this helper.
 //
 // The part is an adapter to Sentry CLI and takes care of uploading
 // source maps to Sentry service.
@@ -444,24 +443,19 @@ function uploadSourcemapsToSentry() {
     if (process.env.STORYBOOK || !process.env.CI) {
         return {};
     }
-    if (!process.env.FRONTEND_SENTRY_PUBLIC_KEY) {
+    if (!process.env.FRONTEND_SENTRY_DSN) {
         // eslint-disable-next-line no-console
-        console.warn("Sentry: Missing FRONTEND_SENTRY_PUBLIC_KEY!");
-        return {};
-    }
-    if (!process.env.FRONTEND_SENTRY_PROJECT_ID) {
-        // eslint-disable-next-line no-console
-        console.warn("Sentry: Missing FRONTEND_SENTRY_PROJECT_ID!");
+        console.warn("Sentry: Missing FRONTEND_SENTRY_DSN!");
         return {};
     }
     return {
         plugins: [
-            // Map Sentry environment variables from env to webpack so they are available
+            // Map Sentry DSN from env to webpack so it's available
             // to Sentry.init at the application (remember set it up!).
-            // Note the FRONTEND prefix at the env!
+            // Note the FRONTEND prefix at the env! That's needed since
+            // in some projects the backend is using Sentry as well.
             new webpack_1.default.DefinePlugin({
-                "process.env.SENTRY_PUBLIC_KEY": "\"" + process.env.FRONTEND_SENTRY_PUBLIC_KEY + "\"",
-                "process.env.SENTRY_PROJECT_ID": "\"" + process.env.FRONTEND_SENTRY_PROJECT_ID + "\"",
+                "process.env.SENTRY_DSN": "\"" + process.env.FRONTEND_SENTRY_DSN + "\"",
             }),
             // Send source maps to Sentry using the CLI through
             // a webpack plugin.
