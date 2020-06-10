@@ -434,8 +434,8 @@ function injectGlobal(_a) {
     };
 }
 exports.injectGlobal = injectGlobal;
-// The Sentry plugin will look for FRONTEND_SENTRY_DSN in the CI
-// environment so remember to set it when using this helper.
+// The Sentry plugin will look for FRONTEND_SENTRY_DSN and VERSION
+// in the CI environment so remember to set them when using this helper.
 //
 // The part is an adapter to Sentry CLI and takes care of uploading
 // source maps to Sentry service.
@@ -446,6 +446,11 @@ function uploadSourcemapsToSentry() {
     if (!process.env.FRONTEND_SENTRY_DSN) {
         // eslint-disable-next-line no-console
         console.warn("Sentry: Missing FRONTEND_SENTRY_DSN!");
+        return {};
+    }
+    if (!process.env.VERSION) {
+        // eslint-disable-next-line no-console
+        console.warn("Sentry: Missing VERSION!");
         return {};
     }
     return {
@@ -462,6 +467,7 @@ function uploadSourcemapsToSentry() {
             new webpack_plugin_2.default({
                 include: ".",
                 ignore: ["node_modules", "webpack.config.js"],
+                release: process.env.VERSION,
             }),
         ],
     };
