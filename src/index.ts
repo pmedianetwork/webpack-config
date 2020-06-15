@@ -555,6 +555,13 @@ function uploadSourcemapsToSentry() {
     return {};
   }
 
+  // Map from FRONTEND_ to non-prefixed versions for Sentry CLI
+  // TODO: Should we enforce all of these are set?
+  process.env.SENTRY_AUTH_TOKEN = process.env.FRONTEND_SENTRY_AUTH_TOKEN;
+  process.env.SENTRY_URL = process.env.FRONTEND_SENTRY_URL;
+  process.env.SENTRY_ORG = process.env.FRONTEND_SENTRY_ORG;
+  process.env.SENTRY_PROJECT = process.env.FRONTEND_SENTRY_PROJECT;
+
   return {
     plugins: [
       // Map Sentry DSN from env to webpack so it's available
