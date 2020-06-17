@@ -65,7 +65,7 @@ declare function injectGlobal({ test, globals, }: {
 declare function uploadSourcemapsToSentry(): {
     plugins?: undefined;
 } | {
-    plugins: (webpack.DefinePlugin | SentryCliPlugin)[];
+    plugins: SentryCliPlugin[];
 };
 declare function exposeEnvironmentVariables(environmentVariables: string[] | {
     [name: string]: any;
