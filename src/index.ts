@@ -113,9 +113,11 @@ function loadSourceMaps(): webpack.Configuration {
 // Now this portion will consume TS configuration from the project but
 // we could consider moving it here if it looks like it's uniform between
 // consumers.
+//
+// It is important to note that this will only **compile** the code and it's
+// not going to perform a type check! Please run tsc separately to handle
+// type checking.
 function loadTypeScript(): webpack.Configuration {
-  const mode = process.env.NODE_ENV;
-
   // TODO: It's worth benchmarking babel-loader here. Given there's no
   // full feature-parity, you should enable isolatedModules in your TS
   // settings if you go this way.
@@ -131,14 +133,8 @@ function loadTypeScript(): webpack.Configuration {
             {
               loader: "ts-loader",
               options: {
-                // fork-ts-checker-webpack-plugin could be potentially faster
-                // Unfortunately it crashes with
-                // TypeError: this[MODULE_TYPE] is not a function
-                // against CSS in adverity-datatap!
-                //
-                // Another option would be to consider handling
-                // type checking outside of webpack
-                transpileOnly: mode !== "production",
+                // You should handle type checking outside of webpack!
+                transpileOnly: true,
               },
             },
           ],
