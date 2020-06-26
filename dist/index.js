@@ -198,15 +198,15 @@ function loadLess(_a) {
 }
 exports.loadLess = loadLess;
 function loadCSS(_a) {
-    var postCssPlugins = (_a === void 0 ? {} : _a).postCssPlugins;
-    var mode = process.env.NODE_ENV;
+    var _b = _a === void 0 ? {} : _a, mode = _b.mode, postCssPlugins = _b.postCssPlugins;
+    var resolvedMode = mode || process.env.NODE_ENV;
     return {
         module: {
             rules: [
                 {
                     test: /\.css$/,
                     use: [
-                        mode === "production"
+                        resolvedMode === "production"
                             ? mini_css_extract_plugin_1.default.loader
                             : "style-loader",
                         cssLoader(postCssPlugins && { importLoaders: 1 }),

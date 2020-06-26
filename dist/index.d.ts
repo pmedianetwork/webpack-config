@@ -24,7 +24,8 @@ declare type PostCSSPlugin = (id: string) => any;
 declare function loadLess({ postCssPlugins, }?: {
     postCssPlugins?: PostCSSPlugin[];
 }): webpack.Configuration;
-declare function loadCSS({ postCssPlugins, }?: {
+declare function loadCSS({ mode, postCssPlugins, }?: {
+    mode?: string;
     postCssPlugins?: PostCSSPlugin[];
 }): webpack.Configuration;
 declare function extractCSS({ filename, }?: {
