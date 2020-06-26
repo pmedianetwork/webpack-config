@@ -223,11 +223,13 @@ function loadLess({
 }
 
 function loadCSS({
+  mode,
   postCssPlugins,
 }: {
+  mode?: string;
   postCssPlugins?: PostCSSPlugin[];
 } = {}): webpack.Configuration {
-  const mode = process.env.NODE_ENV;
+  const resolvedMode = mode || process.env.NODE_ENV;
 
   return {
     module: {
@@ -235,7 +237,7 @@ function loadCSS({
         {
           test: /\.css$/,
           use: [
-            mode === "production"
+            resolvedMode === "production"
               ? MiniCssExtractPlugin.loader
               : "style-loader",
             cssLoader(postCssPlugins && { importLoaders: 1 }),
