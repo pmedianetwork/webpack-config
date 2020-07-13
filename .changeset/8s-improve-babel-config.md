@@ -1,6 +1,6 @@
 ---
 issue: https://github.com/pmedianetwork/webpack-config/issues/8
-type: minor
+type: major
 ---
 
 Now Babel is using **babel-plugin-lodash** to reduce the size of lodash in projects. In addition, the following setup has been added to `@babel/preset-env`:
