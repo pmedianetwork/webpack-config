@@ -5,13 +5,15 @@ const path = require("path");
 const { path: appRootPath } = require("app-root-path");
 
 function copyBrowserslist() {
+  const browsersListFile = ".browserslistrc";
   const packageDirectory = path.join(__dirname, "..");
-  const browsersListPath = path.join(packageDirectory, ".browserslistrc");
+  const browsersListPath = path.join(packageDirectory, browsersListFile);
+  const targetPath = path.join(appRootPath, browsersListFile);
 
-  console.log(`Copying ${browsersListPath} to ${appRootPath}`);
+  console.log(`Copying ${browsersListPath} to ${targetPath}`);
 
   try {
-    fs.copyFileSync(browsersListPath, appRootPath);
+    fs.copyFileSync(browsersListPath, targetPath);
   } catch (err) {
     console.error(err);
   }
