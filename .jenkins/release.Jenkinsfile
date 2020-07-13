@@ -11,6 +11,13 @@ pipeline {
         NODE_VERSION = getNodeVersion()
     }
     stages {
+        stage('Releasable Check') {
+            when { expression { !isReleasable() } }
+            steps {
+                script { currentBuild.result = 'ABORTED' }
+                error('Aborting, because the branch is not releasable.')
+            }
+        }
         stage('Changesets') {
             steps {
                 script {
