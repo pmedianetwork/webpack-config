@@ -1,6 +1,6 @@
 {
   "name": "@pmedianetwork/webpack-config",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "This repository contains configuration that can be shared between applications using webpack for bundling.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
