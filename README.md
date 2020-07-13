@@ -40,6 +40,12 @@ For ESLint, extend your `.eslintrc` like this:
 
 Doing this will fix import related linting rules to take webpack configuration into account.
 
+### Browserslist
+
+[browserslist](https://www.npmjs.com/package/browserslist) is a standard that defines the minimum versions of browsers where the project should work. The information is useful for tooling as it can then generate optimized code and avoid using legacy features unless they are needed.
+
+When **@pmedianetwork/webpack-config** is installed, it's going to copy `.browserslist` file included within the package to the project where it was installed.
+
 ## Development
 
 The project has been written in TypeScript. Each part of configuration is a small function that has type annotations.
