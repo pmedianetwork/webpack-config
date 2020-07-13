@@ -19,7 +19,6 @@
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
     "test": "echo \"No test specified\"",
     "build": "rimraf ./dist && tsc",
-    "preversion": "npm run build && git commit --no-verify --allow-empty -am \"Update dist\"",
     "postinstall": "npm run copy-browserslist",
     "copy-browserslist": "node ./utils/copy-browserslist.js"
   },
