@@ -53,6 +53,7 @@
     "@sentry/webpack-plugin": "^1.10.0",
     "@svgr/webpack": "^5.4.0",
     "@types/brotli-webpack-plugin": "^1.1.0",
+    "app-root-path": "3.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "brotli-webpack-plugin": "^1.1.0",
