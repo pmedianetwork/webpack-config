@@ -66,7 +66,7 @@ pipeline {
                 ]
             )
         }
-        unsuccessful {
+        failure {
             notifySlack channel: 'webpack'
         }
     }
