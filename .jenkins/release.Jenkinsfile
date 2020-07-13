@@ -23,6 +23,7 @@ pipeline {
             steps {
                 gitFlowRelease(version: releaseVersion) {
                     nvm(env.NODE_VERSION) {
+                        sh 'npm ci'
                         sh "npm version ${releaseVersion} --no-git-tag-version"
                         sh 'npm run build'
                     }
