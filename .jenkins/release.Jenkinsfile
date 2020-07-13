@@ -44,7 +44,7 @@ pipeline {
                 channel: 'dev-frontend, webpack',
                 attachments: [
                     [
-                        pretext: "Version ${releaseVersion} of webpack-config was released! :tada: ",
+                        pretext: "Version ${releaseVersion} of webpack-config was released! :tada:",
                         color  : 'good',
                         actions: [
                             [
