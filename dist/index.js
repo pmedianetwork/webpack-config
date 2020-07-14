@@ -275,9 +275,12 @@ function loadFonts(options) {
 exports.loadFonts = loadFonts;
 // TODO: If the interface grows, either refactor into separate functions
 // or change into an object form
-function loadImages(options, svgLoader) {
+function loadImages(options, 
+// Resolve @svgr/webpack by an absolute path to avoid installing it
+// at consumers. #13
+svgLoader) {
     if (options === void 0) { options = {}; }
-    if (svgLoader === void 0) { svgLoader = "@svgr/webpack"; }
+    if (svgLoader === void 0) { svgLoader = require.resolve("@svgr/webpack"); }
     return {
         module: {
             rules: [
