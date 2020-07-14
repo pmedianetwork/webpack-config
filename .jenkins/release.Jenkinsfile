@@ -48,6 +48,7 @@ pipeline {
     }
     post {
         success {
+            cleanWs()
             slackSend(
                 channel: 'dev-frontend, webpack',
                 attachments: [
