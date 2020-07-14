@@ -19,16 +19,24 @@ test("webpack output matches", () => {
         return reject(stats.toString("errors-only"));
       }
 
-      console.log(compiler.outputFileSystem);
+      const pathParts = compiler.outputFileSystem
+        .pathToArray(__dirname)
+        .concat(["dist", "main.js"]);
+      const file = get(compiler.outputFileSystem.data, pathParts).toString();
 
-      const result = compiler.outputFileSystem.data["main.js"].toString();
-
-      console.log("result", result);
-
-      expect(true).toEqual(true);
-      //expect(stats).toMatchSnapshot();
+      expect(file).toMatchSnapshot();
 
       resolve();
     }),
   );
 });
+
+function get(o, keys) {
+  let ret = o;
+
+  keys.forEach((key) => {
+    ret = ret[key];
+  });
+
+  return ret;
+}
