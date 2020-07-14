@@ -24,6 +24,7 @@
       "plugins": [["lodash", { "id": ["lodash"] }]]
     },
     "test": {
+      "presets": ["@babel/preset-env", "@babel/preset-react"],
       "plugins": ["require-context-hook"]
     }
   }
