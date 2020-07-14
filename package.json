@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
-    "pretest": "npm install && cd demo && npm install",
+    "pretest": "cd demo && npm install",
     "test": "jest test.js",
     "build": "rimraf ./dist && tsc",
     "postinstall": "npm run copy-browserslist",
