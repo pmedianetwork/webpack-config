@@ -1,6 +1,6 @@
 ---
 issue: <GitHub Issue URL>
-label: major|minor|patch
+type: major|minor|patch
 ---
 
 Add description here.
