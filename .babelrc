@@ -3,7 +3,11 @@
     [
       "@babel/preset-env",
       {
-        "modules": false
+        "bugfixes": true,
+        "corejs": 3,
+        "loose": true,
+        "modules": false,
+        "useBuiltIns": "entry"
       }
     ],
     "@babel/preset-react"
@@ -16,8 +20,10 @@
     "development": {
       "plugins": ["react-hot-loader/babel"]
     },
+    "production": {
+      "plugins": [["lodash", { "id": ["lodash"] }]]
+    },
     "test": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"],
       "plugins": ["require-context-hook"]
     }
   }
