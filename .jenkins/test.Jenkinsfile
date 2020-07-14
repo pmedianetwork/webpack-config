@@ -8,7 +8,7 @@ pipeline {
         stage('Test') {
             steps {
                 nvm(env.NODE_VERSION) {
-                    sh 'npm run test'
+                    sh 'npm ci && npm run test'
                 }
             }
         }
