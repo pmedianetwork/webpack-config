@@ -330,7 +330,9 @@ function loadFonts(options: FileLoaderOptions = {}): webpack.Configuration {
 // or change into an object form
 function loadImages(
   options: FileLoaderOptions = {},
-  svgLoader = "@svgr/webpack",
+  // Resolve @svgr/webpack by an absolute path to avoid installing it
+  // at consumers. #13
+  svgLoader = require.resolve("@svgr/webpack"),
 ): webpack.Configuration {
   return {
     module: {
