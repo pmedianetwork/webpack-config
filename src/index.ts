@@ -18,6 +18,7 @@ import PacktrackerPlugin from "@packtracker/webpack-plugin";
 import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 
 // This function should be used for merging Storybook base configuration with
 // project specific configuration. It's the place where Storybook can be optimized
@@ -405,11 +406,33 @@ function webpackDevServer(
       },
       ...options,
     },
-    // HMR setup with React and react-hot-loader
     plugins: [new webpack.HotModuleReplacementPlugin()],
+  };
+}
+
+// This is the legacy option for React projects. It requires you to use
+// hot wrapper from react-hot-loader at the root of an app.
+function reactHotLoader() {
+  if (process.env.STORYBOOK) {
+    return {};
+  }
+
+  return {
     resolve: {
       alias: { "react-dom": "@hot-loader/react-dom" },
     },
+  };
+}
+
+// This is the modern option for React projects. If you enable the option,
+// you don't have to do anything at the app side.
+function reactFastRefresh() {
+  if (process.env.STORYBOOK) {
+    return {};
+  }
+
+  return {
+    plugins: [new ReactRefreshWebpackPlugin()],
   };
 }
 
@@ -631,6 +654,8 @@ export {
   extractCSS,
   dontParse,
   webpackDevServer,
+  reactHotLoader,
+  reactFastRefresh,
   trackBundleSize,
   minifyJavaScript,
   minifyCSS,
