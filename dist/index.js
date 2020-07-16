@@ -18,6 +18,7 @@ var webpack_plugin_1 = tslib_1.__importDefault(require("@packtracker/webpack-plu
 var webpack_bundle_tracker_1 = tslib_1.__importDefault(require("webpack-bundle-tracker"));
 var terser_webpack_plugin_1 = tslib_1.__importDefault(require("terser-webpack-plugin"));
 var webpack_plugin_2 = tslib_1.__importDefault(require("@sentry/webpack-plugin"));
+var react_refresh_webpack_plugin_1 = tslib_1.__importDefault(require("@pmmmwh/react-refresh-webpack-plugin"));
 // This function should be used for merging Storybook base configuration with
 // project specific configuration. It's the place where Storybook can be optimized
 // further.
@@ -340,14 +341,34 @@ function webpackDevServer(options) {
         devServer: tslib_1.__assign({ hot: true, headers: {
                 "Access-Control-Allow-Origin": "*",
             } }, options),
-        // HMR setup with React and react-hot-loader
         plugins: [new webpack_1.default.HotModuleReplacementPlugin()],
+    };
+}
+exports.webpackDevServer = webpackDevServer;
+// This is the legacy option for React projects. It requires you to use
+// hot wrapper from react-hot-loader at the root of an app.
+function reactHotLoader() {
+    if (process.env.STORYBOOK) {
+        return {};
+    }
+    return {
         resolve: {
             alias: { "react-dom": "@hot-loader/react-dom" },
         },
     };
 }
-exports.webpackDevServer = webpackDevServer;
+exports.reactHotLoader = reactHotLoader;
+// This is the modern option for React projects. If you enable the option,
+// you don't have to do anything at the app side.
+function reactFastRefresh() {
+    if (process.env.STORYBOOK) {
+        return {};
+    }
+    return {
+        plugins: [new react_refresh_webpack_plugin_1.default()],
+    };
+}
+exports.reactFastRefresh = reactFastRefresh;
 // For PackTracker (bundle size tracking service) to work, you should set
 // CI flag to true in the continuous integration environment.
 function trackBundleSize(token) {
