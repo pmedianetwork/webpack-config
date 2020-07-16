@@ -32,9 +32,6 @@ var terser_webpack_plugin_1 = tslib_1.__importDefault(
 var webpack_plugin_2 = tslib_1.__importDefault(
   require("@sentry/webpack-plugin"),
 );
-var react_refresh_webpack_plugin_1 = tslib_1.__importDefault(
-  require("@pmmmwh/react-refresh-webpack-plugin"),
-);
 // This function should be used for merging Storybook base configuration with
 // project specific configuration. It's the place where Storybook can be optimized
 // further.
@@ -340,12 +337,17 @@ function loadFonts(options) {
 exports.loadFonts = loadFonts;
 // TODO: If the interface grows, either refactor into separate functions
 // or change into an object form
-function loadImages(options, svgLoader) {
+function loadImages(
+  options,
+  // Resolve @svgr/webpack by an absolute path to avoid installing it
+  // at consumers. #13
+  svgLoader,
+) {
   if (options === void 0) {
     options = {};
   }
   if (svgLoader === void 0) {
-    svgLoader = "@svgr/webpack";
+    svgLoader = require.resolve("@svgr/webpack");
   }
   return {
     module: {
@@ -418,34 +420,14 @@ function webpackDevServer(options) {
       },
       options,
     ),
+    // HMR setup with React and react-hot-loader
     plugins: [new webpack_1.default.HotModuleReplacementPlugin()],
-  };
-}
-exports.webpackDevServer = webpackDevServer;
-// This is the legacy option for React projects. It requires you to use
-// hot wrapper from react-hot-loader at the root of an app.
-function reactHotLoader() {
-  if (process.env.STORYBOOK) {
-    return {};
-  }
-  return {
     resolve: {
       alias: { "react-dom": "@hot-loader/react-dom" },
     },
   };
 }
-exports.reactHotLoader = reactHotLoader;
-// This is the modern option for React projects. If you enable the option,
-// you don't have to do anything at the app side.
-function reactFastRefresh() {
-  if (process.env.STORYBOOK) {
-    return {};
-  }
-  return {
-    plugins: [new react_refresh_webpack_plugin_1.default()],
-  };
-}
-exports.reactFastRefresh = reactFastRefresh;
+exports.webpackDevServer = webpackDevServer;
 // For PackTracker (bundle size tracking service) to work, you should set
 // CI flag to true in the continuous integration environment.
 function trackBundleSize(token) {

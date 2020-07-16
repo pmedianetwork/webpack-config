@@ -6,7 +6,6 @@ import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 declare function mergeStorybook({
   mode,
   config,
@@ -65,24 +64,6 @@ declare function dontParse(
 declare function webpackDevServer(
   options: WebpackDevServer.Configuration,
 ): webpack.Configuration;
-declare function reactHotLoader():
-  | {
-      resolve?: undefined;
-    }
-  | {
-      resolve: {
-        alias: {
-          "react-dom": string;
-        };
-      };
-    };
-declare function reactFastRefresh():
-  | {
-      plugins?: undefined;
-    }
-  | {
-      plugins: ReactRefreshWebpackPlugin[];
-    };
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript({
   terserOptions,
@@ -156,8 +137,6 @@ export {
   extractCSS,
   dontParse,
   webpackDevServer,
-  reactHotLoader,
-  reactFastRefresh,
   trackBundleSize,
   minifyJavaScript,
   minifyCSS,
