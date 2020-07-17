@@ -279,9 +279,13 @@ exports.loadFonts = loadFonts;
 function loadImages(options, 
 // Resolve @svgr/webpack by an absolute path to avoid installing it
 // at consumers. #13
+//
+// This uses svgr to emit React components. You'll get
+// import starUrl, { ReactComponent as Star } from './star.svg'
+// style of import from this by default.
 svgLoader) {
     if (options === void 0) { options = {}; }
-    if (svgLoader === void 0) { svgLoader = require.resolve("@svgr/webpack"); }
+    if (svgLoader === void 0) { svgLoader = [require.resolve("@svgr/webpack"), "url-loader"]; }
     return {
         module: {
             rules: [
