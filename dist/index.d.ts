@@ -41,7 +41,7 @@ declare type FileLoaderOptions = {
     emitFile?: boolean;
 };
 declare function loadFonts(options?: FileLoaderOptions): webpack.Configuration;
-declare function loadImages(options?: FileLoaderOptions, svgLoader?: string): webpack.Configuration;
+declare function loadImages(options?: FileLoaderOptions, svgLoader?: string[]): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
 declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
 declare function reactHotLoader(): {
