@@ -424,6 +424,23 @@ function reactHotLoader() {
   return {
     resolve: {
       alias: { "react-dom": "@hot-loader/react-dom" },
+      module: {
+        rules: [
+          {
+            test: /\.(j|t)sx?$/,
+            enforce: "post",
+            use: [
+              {
+                loader: "babel-loader",
+                options: {
+                  plugins: ["react-hot-loader/babel"],
+                },
+              },
+            ],
+            exclude: /node_modules/,
+          },
+        ],
+      },
     },
   };
 }
@@ -437,6 +454,23 @@ function reactFastRefresh() {
 
   return {
     plugins: [new ReactRefreshWebpackPlugin()],
+    module: {
+      rules: [
+        {
+          test: /\.(j|t)sx?$/,
+          enforce: "post",
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                plugins: ["react-refresh/babel"],
+              },
+            },
+          ],
+          exclude: /node_modules/,
+        },
+      ],
+    },
   };
 }
 

@@ -51,12 +51,39 @@ declare function reactHotLoader(): {
         alias: {
             "react-dom": string;
         };
+        module: {
+            rules: {
+                test: RegExp;
+                enforce: string;
+                use: {
+                    loader: string;
+                    options: {
+                        plugins: string[];
+                    };
+                }[];
+                exclude: RegExp;
+            }[];
+        };
     };
 };
 declare function reactFastRefresh(): {
     plugins?: undefined;
+    module?: undefined;
 } | {
     plugins: ReactRefreshWebpackPlugin[];
+    module: {
+        rules: {
+            test: RegExp;
+            enforce: string;
+            use: {
+                loader: string;
+                options: {
+                    plugins: string[];
+                };
+            }[];
+            exclude: RegExp;
+        }[];
+    };
 };
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript({ terserOptions, }?: {
