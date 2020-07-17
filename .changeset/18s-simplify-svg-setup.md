@@ -1,5 +1,5 @@
 ---
-issue: Simplify SVG setup for js/ts #18
+issue: https://github.com/pmedianetwork/webpack-config/issues/18
 type: major
 ---
 
