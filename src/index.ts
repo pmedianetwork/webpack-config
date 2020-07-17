@@ -333,7 +333,11 @@ function loadImages(
   options: FileLoaderOptions = {},
   // Resolve @svgr/webpack by an absolute path to avoid installing it
   // at consumers. #13
-  svgLoader = require.resolve("@svgr/webpack"),
+  //
+  // This uses svgr to emit React components. You'll get
+  // import starUrl, { ReactComponent as Star } from './star.svg'
+  // style of import from this by default.
+  svgLoader = [require.resolve("@svgr/webpack"), "url-loader"],
 ): webpack.Configuration {
   return {
     module: {
