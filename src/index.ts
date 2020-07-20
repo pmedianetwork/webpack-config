@@ -19,6 +19,7 @@ import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import tsLoader from "ts-loader";
 
 // This function should be used for merging Storybook base configuration with
 // project specific configuration. It's the place where Storybook can be optimized
@@ -118,7 +119,11 @@ function loadSourceMaps(): webpack.Configuration {
 // It is important to note that this will only **compile** the code and it's
 // not going to perform a type check! Please run tsc separately to handle
 // type checking.
-function loadTypeScript(): webpack.Configuration {
+function loadTypeScript({
+  options,
+}: {
+  options?: tsLoader.Options;
+} = {}): webpack.Configuration {
   // TODO: It's worth benchmarking babel-loader here. Given there's no
   // full feature-parity, you should enable isolatedModules in your TS
   // settings if you go this way.
@@ -134,6 +139,7 @@ function loadTypeScript(): webpack.Configuration {
             {
               loader: "ts-loader",
               options: {
+                ...options,
                 // You should handle type checking outside of webpack!
                 transpileOnly: true,
               },
