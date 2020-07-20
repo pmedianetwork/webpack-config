@@ -7,6 +7,7 @@ import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import tsLoader from "ts-loader";
 declare function mergeStorybook({ mode, config, userConfig, }: {
     mode: "DEVELOPMENT" | "PRODUCTION";
     config: webpack.Configuration;
@@ -17,7 +18,9 @@ declare function loadJavaScript({ include, exclude, }?: {
     exclude?: webpack.RuleSetCondition;
 }): webpack.Configuration;
 declare function loadSourceMaps(): webpack.Configuration;
-declare function loadTypeScript(): webpack.Configuration;
+declare function loadTypeScript({ options, }?: {
+    options?: tsLoader.Options;
+}): webpack.Configuration;
 declare function loadJSON(): webpack.Configuration;
 declare function loadHTML(): webpack.Configuration;
 declare function loadYAML(): webpack.Configuration;

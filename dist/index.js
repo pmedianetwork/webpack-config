@@ -102,7 +102,8 @@ exports.loadSourceMaps = loadSourceMaps;
 // It is important to note that this will only **compile** the code and it's
 // not going to perform a type check! Please run tsc separately to handle
 // type checking.
-function loadTypeScript() {
+function loadTypeScript(_a) {
+    var options = (_a === void 0 ? {} : _a).options;
     // TODO: It's worth benchmarking babel-loader here. Given there's no
     // full feature-parity, you should enable isolatedModules in your TS
     // settings if you go this way.
@@ -117,10 +118,9 @@ function loadTypeScript() {
                     use: [
                         {
                             loader: "ts-loader",
-                            options: {
+                            options: tslib_1.__assign(tslib_1.__assign({}, options), { 
                                 // You should handle type checking outside of webpack!
-                                transpileOnly: true,
-                            },
+                                transpileOnly: true }),
                         },
                     ],
                     exclude: /node_modules/,
