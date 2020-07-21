@@ -422,7 +422,7 @@ function webpackDevServer(
 
 // This is the legacy option for React projects. It requires you to use
 // hot wrapper from react-hot-loader at the root of an app.
-function reactHotLoader() {
+function reactHotLoader(): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
@@ -430,30 +430,30 @@ function reactHotLoader() {
   return {
     resolve: {
       alias: { "react-dom": "@hot-loader/react-dom" },
-      module: {
-        rules: [
-          {
-            test: /\.(j|t)sx?$/,
-            enforce: "post",
-            use: [
-              {
-                loader: "babel-loader",
-                options: {
-                  plugins: ["react-hot-loader/babel"],
-                },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(j|t)sx?$/,
+          enforce: "post",
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                plugins: ["react-hot-loader/babel"],
               },
-            ],
-            exclude: /node_modules/,
-          },
-        ],
-      },
+            },
+          ],
+          exclude: /node_modules/,
+        },
+      ],
     },
   };
 }
 
 // This is the modern option for React projects. If you enable the option,
 // you don't have to do anything at the app side.
-function reactFastRefresh() {
+function reactFastRefresh(): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
