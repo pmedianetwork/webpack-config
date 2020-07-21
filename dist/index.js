@@ -358,23 +358,23 @@ function reactHotLoader() {
     return {
         resolve: {
             alias: { "react-dom": "@hot-loader/react-dom" },
-            module: {
-                rules: [
-                    {
-                        test: /\.(j|t)sx?$/,
-                        enforce: "post",
-                        use: [
-                            {
-                                loader: "babel-loader",
-                                options: {
-                                    plugins: ["react-hot-loader/babel"],
-                                },
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(j|t)sx?$/,
+                    enforce: "post",
+                    use: [
+                        {
+                            loader: "babel-loader",
+                            options: {
+                                plugins: ["react-hot-loader/babel"],
                             },
-                        ],
-                        exclude: /node_modules/,
-                    },
-                ],
-            },
+                        },
+                    ],
+                    exclude: /node_modules/,
+                },
+            ],
         },
     };
 }

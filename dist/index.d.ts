@@ -6,7 +6,6 @@ import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import tsLoader from "ts-loader";
 declare function mergeStorybook({ mode, config, userConfig, }: {
     mode: "DEVELOPMENT" | "PRODUCTION";
@@ -47,47 +46,8 @@ declare function loadFonts(options?: FileLoaderOptions): webpack.Configuration;
 declare function loadImages(options?: FileLoaderOptions, svgLoader?: string[]): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
 declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
-declare function reactHotLoader(): {
-    resolve?: undefined;
-} | {
-    resolve: {
-        alias: {
-            "react-dom": string;
-        };
-        module: {
-            rules: {
-                test: RegExp;
-                enforce: string;
-                use: {
-                    loader: string;
-                    options: {
-                        plugins: string[];
-                    };
-                }[];
-                exclude: RegExp;
-            }[];
-        };
-    };
-};
-declare function reactFastRefresh(): {
-    plugins?: undefined;
-    module?: undefined;
-} | {
-    plugins: ReactRefreshWebpackPlugin[];
-    module: {
-        rules: {
-            test: RegExp;
-            enforce: string;
-            use: {
-                loader: string;
-                options: {
-                    plugins: string[];
-                };
-            }[];
-            exclude: RegExp;
-        }[];
-    };
-};
+declare function reactHotLoader(): webpack.Configuration;
+declare function reactFastRefresh(): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript({ terserOptions, }?: {
     terserOptions: TerserPlugin.TerserPluginOptions["terserOptions"];
