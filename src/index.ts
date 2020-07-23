@@ -424,6 +424,8 @@ function webpackDevServer(
   };
 }
 
+// https://www.npmjs.com/package/webpack-plugin-serve
+//
 // Note that when using webpack-plugin-serve, you have to run
 // the process through regular webpack, not webpack-dev-server!
 // The plugin relies on webpack watch mode (enabled through this function).
