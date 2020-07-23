@@ -5,6 +5,10 @@
  */
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
+import {
+  WebpackPluginServe,
+  WebpackPluginServeOptions,
+} from "webpack-plugin-serve";
 import merge from "webpack-merge";
 import BrotliPlugin from "brotli-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -420,6 +424,47 @@ function webpackDevServer(
   };
 }
 
+// Note that when using webpack-plugin-serve, you have to run
+// the process through regular webpack, not webpack-dev-server!
+// The plugin relies on webpack watch mode (enabled through this function).
+//
+// When using the function, make sure your `output.publicPath` is included
+// to `staticPaths`.
+function webpackPluginServe({
+  staticPaths,
+  historyApiFallback: historyFallback,
+  ...options
+}: WebpackPluginServeOptions & {
+  // Adapt to webpack-dev-server naming and avoid using static reserved
+  // keyword.
+  historyApiFallback: WebpackPluginServeOptions["historyFallback"];
+  staticPaths: WebpackPluginServeOptions["static"];
+}): webpack.Configuration {
+  if (process.env.STORYBOOK) {
+    return {};
+  }
+
+  // You can speed up execution by 20-30% by enabling ramdisk. It's
+  // not used as it's possible it runs out of memory on default settings.
+  return {
+    plugins: [
+      new WebpackPluginServe({
+        hmr: true,
+        progress: "minimal",
+        historyFallback,
+        middleware: (app) =>
+          app.use(async (ctx, next) => {
+            ctx.set("Access-Control-Allow-Origin", "*");
+            await next();
+          }),
+        static: staticPaths,
+        ...options,
+      }),
+    ],
+    watch: true,
+  };
+}
+
 // This is the legacy option for React projects. It requires you to use
 // hot wrapper from react-hot-loader at the root of an app.
 function reactHotLoader(): webpack.Configuration {
@@ -698,6 +743,7 @@ export {
   extractCSS,
   dontParse,
   webpackDevServer,
+  webpackPluginServe,
   reactHotLoader,
   reactFastRefresh,
   trackBundleSize,
