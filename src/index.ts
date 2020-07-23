@@ -4,7 +4,6 @@
  * configuration based on the exact need.
  */
 import webpack from "webpack";
-import WebpackDevServer from "webpack-dev-server";
 import {
   WebpackPluginServe,
   WebpackPluginServeOptions,
@@ -401,29 +400,6 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
   };
 }
 
-// https://webpack.js.org/configuration/dev-server/#devserver
-//
-// Note that HMR is enabled by default! That could be extracted to
-// another function in case it's not needed in all projects.
-function webpackDevServer(
-  options: WebpackDevServer.Configuration,
-): webpack.Configuration {
-  if (process.env.STORYBOOK) {
-    return {};
-  }
-
-  return {
-    devServer: {
-      hot: true,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-      ...options,
-    },
-    plugins: [new webpack.HotModuleReplacementPlugin()],
-  };
-}
-
 // https://www.npmjs.com/package/webpack-plugin-serve
 //
 // Note that when using webpack-plugin-serve, you have to run
@@ -464,37 +440,6 @@ function webpackPluginServe({
       }),
     ],
     watch: true,
-  };
-}
-
-// This is the legacy option for React projects. It requires you to use
-// hot wrapper from react-hot-loader at the root of an app.
-function reactHotLoader(): webpack.Configuration {
-  if (process.env.STORYBOOK) {
-    return {};
-  }
-
-  return {
-    resolve: {
-      alias: { "react-dom": "@hot-loader/react-dom" },
-    },
-    module: {
-      rules: [
-        {
-          test: /\.(j|t)sx?$/,
-          enforce: "post",
-          use: [
-            {
-              loader: "babel-loader",
-              options: {
-                plugins: ["react-hot-loader/babel"],
-              },
-            },
-          ],
-          exclude: /node_modules/,
-        },
-      ],
-    },
   };
 }
 
@@ -744,9 +689,7 @@ export {
   loadSourceMaps,
   extractCSS,
   dontParse,
-  webpackDevServer,
   webpackPluginServe,
-  reactHotLoader,
   reactFastRefresh,
   trackBundleSize,
   minifyJavaScript,
