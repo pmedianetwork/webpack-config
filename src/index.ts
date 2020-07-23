@@ -403,8 +403,9 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
 // https://www.npmjs.com/package/webpack-plugin-serve
 //
 // Note that when using webpack-plugin-serve, you have to run
-// the process through regular webpack, not webpack-dev-server!
-// The plugin relies on webpack watch mode (enabled through this function).
+// the process through regular webpack! The setup here will
+// make sure it's running in watch mode and rest of the logic
+// is built on this.
 //
 // When using the function, make sure your `output.publicPath` is included
 // to `staticPaths`.
