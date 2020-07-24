@@ -1,5 +1,5 @@
 import webpack from "webpack";
-import WebpackDevServer from "webpack-dev-server";
+import { WebpackPluginServeOptions } from "webpack-plugin-serve";
 import merge from "webpack-merge";
 import BrotliPlugin from "brotli-webpack-plugin";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
@@ -45,8 +45,10 @@ declare type FileLoaderOptions = {
 declare function loadFonts(options?: FileLoaderOptions): webpack.Configuration;
 declare function loadImages(options?: FileLoaderOptions, svgLoader?: string[]): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
-declare function webpackDevServer(options: WebpackDevServer.Configuration): webpack.Configuration;
-declare function reactHotLoader(): webpack.Configuration;
+declare function webpackPluginServe({ staticPaths, historyApiFallback: historyFallback, ...options }: WebpackPluginServeOptions & {
+    historyApiFallback: WebpackPluginServeOptions["historyFallback"];
+    staticPaths: WebpackPluginServeOptions["static"];
+}): webpack.Configuration;
 declare function reactFastRefresh(): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript({ terserOptions, }?: {
@@ -82,4 +84,4 @@ declare function exposeGlobals(globals: {
 }[]): webpack.Configuration;
 declare function compressWithBrotli(options?: BrotliPlugin.Options): webpack.Configuration;
 export { merge, // Expose merge function through a facade
-mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, loadSourceMaps, extractCSS, dontParse, webpackDevServer, reactHotLoader, reactFastRefresh, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, compressWithBrotli, };
+mergeStorybook, loadJavaScript, loadTypeScript, loadJSON, loadLess, loadCSS, loadFonts, loadImages, loadHTML, loadYAML, loadSourceMaps, extractCSS, dontParse, webpackPluginServe, reactFastRefresh, trackBundleSize, minifyJavaScript, minifyCSS, cleanOutput, emitStats, injectGlobal, provideGlobals, uploadSourcemapsToSentry, exposeEnvironmentVariables, exposeGlobals, compressWithBrotli, };
