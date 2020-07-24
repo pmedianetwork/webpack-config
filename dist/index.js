@@ -7,6 +7,7 @@ var tslib_1 = require("tslib");
  * configuration based on the exact need.
  */
 var webpack_1 = tslib_1.__importDefault(require("webpack"));
+var webpack_plugin_serve_1 = require("webpack-plugin-serve");
 var webpack_merge_1 = tslib_1.__importDefault(require("webpack-merge"));
 exports.merge = webpack_merge_1.default;
 var brotli_webpack_plugin_1 = tslib_1.__importDefault(require("brotli-webpack-plugin"));
@@ -333,52 +334,44 @@ function dontParse(paths) {
     };
 }
 exports.dontParse = dontParse;
-// https://webpack.js.org/configuration/dev-server/#devserver
+// https://www.npmjs.com/package/webpack-plugin-serve
 //
-// Note that HMR is enabled by default! That could be extracted to
-// another function in case it's not needed in all projects.
-function webpackDevServer(options) {
+// Note that when using webpack-plugin-serve, you have to run
+// the process through regular webpack! The setup here will
+// make sure it's running in watch mode and rest of the logic
+// is built on this.
+//
+// When using the function, make sure your `output.publicPath` is included
+// to `staticPaths`.
+function webpackPluginServe(_a) {
+    var _this = this;
+    var staticPaths = _a.staticPaths, historyFallback = _a.historyApiFallback, options = tslib_1.__rest(_a, ["staticPaths", "historyApiFallback"]);
     if (process.env.STORYBOOK) {
         return {};
     }
+    // You can speed up execution by 20-30% by enabling ramdisk. It's
+    // not used as it's possible it runs out of memory on default settings.
     return {
-        devServer: tslib_1.__assign({ hot: true, headers: {
-                "Access-Control-Allow-Origin": "*",
-            } }, options),
-        plugins: [new webpack_1.default.HotModuleReplacementPlugin()],
+        plugins: [
+            new webpack_plugin_serve_1.WebpackPluginServe(tslib_1.__assign({ hmr: true, progress: "minimal", historyFallback: historyFallback, middleware: function (app) {
+                    return app.use(function (ctx, next) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                        return tslib_1.__generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    ctx.set("Access-Control-Allow-Origin", "*");
+                                    return [4 /*yield*/, next()];
+                                case 1:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                }, static: staticPaths }, options)),
+        ],
+        watch: true,
     };
 }
-exports.webpackDevServer = webpackDevServer;
-// This is the legacy option for React projects. It requires you to use
-// hot wrapper from react-hot-loader at the root of an app.
-function reactHotLoader() {
-    if (process.env.STORYBOOK) {
-        return {};
-    }
-    return {
-        resolve: {
-            alias: { "react-dom": "@hot-loader/react-dom" },
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.(j|t)sx?$/,
-                    enforce: "post",
-                    use: [
-                        {
-                            loader: "babel-loader",
-                            options: {
-                                plugins: ["react-hot-loader/babel"],
-                            },
-                        },
-                    ],
-                    exclude: /node_modules/,
-                },
-            ],
-        },
-    };
-}
-exports.reactHotLoader = reactHotLoader;
+exports.webpackPluginServe = webpackPluginServe;
 // This is the modern option for React projects. If you enable the option,
 // you don't have to do anything at the app side.
 function reactFastRefresh() {
