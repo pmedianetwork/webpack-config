@@ -22,7 +22,6 @@ import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
-// import type { ReactRefreshWebpackPlugin } from "@pmmmwh/react-refresh-webpack-plugin";
 import tsLoader from "ts-loader";
 
 // This function should be used for merging Storybook base configuration with
