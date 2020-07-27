@@ -22,6 +22,7 @@ import BundleTracker from "webpack-bundle-tracker";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+// import type { ReactRefreshWebpackPlugin } from "@pmmmwh/react-refresh-webpack-plugin";
 import tsLoader from "ts-loader";
 
 // This function should be used for merging Storybook base configuration with
@@ -446,13 +447,20 @@ function webpackPluginServe({
 
 // This is the modern option for React projects. If you enable the option,
 // you don't have to do anything at the app side.
-function reactFastRefresh(): webpack.Configuration {
+function reactFastRefresh({
+  options,
+}: {
+  // The plugin options are exposed in a weird way so we have to look them
+  // up from the constructor.
+  // https://stackoverflow.com/questions/43481518/get-argument-types-for-function-class-constructor
+  options?: ConstructorParameters<typeof ReactRefreshWebpackPlugin>[0];
+}): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
 
   return {
-    plugins: [new ReactRefreshWebpackPlugin()],
+    plugins: [new ReactRefreshWebpackPlugin(options)],
     module: {
       rules: [
         {
