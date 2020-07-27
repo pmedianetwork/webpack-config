@@ -447,13 +447,13 @@ function webpackPluginServe({
 // This is the modern option for React projects. If you enable the option,
 // you don't have to do anything at the app side.
 function reactFastRefresh({
-  options,
+  options = {},
 }: {
   // The plugin options are exposed in a weird way so we have to look them
   // up from the constructor.
   // https://stackoverflow.com/questions/43481518/get-argument-types-for-function-class-constructor
   options?: ConstructorParameters<typeof ReactRefreshWebpackPlugin>[0];
-}): webpack.Configuration {
+} = {}): webpack.Configuration {
   if (process.env.STORYBOOK) {
     return {};
   }
