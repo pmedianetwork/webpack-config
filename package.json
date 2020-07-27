@@ -1,6 +1,6 @@
 {
   "name": "@pmedianetwork/webpack-config",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "This repository contains configuration that can be shared between applications using webpack for bundling.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "@packtracker/webpack-plugin": "^2.2.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.0-beta.8",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.0-beta.10",
     "@sentry/webpack-plugin": "^1.10.0",
     "@svgr/webpack": "^5.4.0",
     "@types/brotli-webpack-plugin": "^1.1.0",
