@@ -374,12 +374,13 @@ function webpackPluginServe(_a) {
 exports.webpackPluginServe = webpackPluginServe;
 // This is the modern option for React projects. If you enable the option,
 // you don't have to do anything at the app side.
-function reactFastRefresh() {
+function reactFastRefresh(_a) {
+    var _b = (_a === void 0 ? {} : _a).options, options = _b === void 0 ? {} : _b;
     if (process.env.STORYBOOK) {
         return {};
     }
     return {
-        plugins: [new react_refresh_webpack_plugin_1.default()],
+        plugins: [new react_refresh_webpack_plugin_1.default(options)],
         module: {
             rules: [
                 {
