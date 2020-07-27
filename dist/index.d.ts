@@ -6,6 +6,7 @@ import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { Options as CleanWebpackPluginOptions } from "clean-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import SentryCliPlugin from "@sentry/webpack-plugin";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import tsLoader from "ts-loader";
 declare function mergeStorybook({ mode, config, userConfig, }: {
     mode: "DEVELOPMENT" | "PRODUCTION";
@@ -49,7 +50,9 @@ declare function webpackPluginServe({ staticPaths, historyApiFallback: historyFa
     historyApiFallback: WebpackPluginServeOptions["historyFallback"];
     staticPaths: WebpackPluginServeOptions["static"];
 }): webpack.Configuration;
-declare function reactFastRefresh(): webpack.Configuration;
+declare function reactFastRefresh({ options, }?: {
+    options?: ConstructorParameters<typeof ReactRefreshWebpackPlugin>[0];
+}): webpack.Configuration;
 declare function trackBundleSize(token: string): webpack.Configuration;
 declare function minifyJavaScript({ terserOptions, }?: {
     terserOptions: TerserPlugin.TerserPluginOptions["terserOptions"];
