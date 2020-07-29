@@ -10,6 +10,11 @@ function copyBrowserslist() {
   const browsersListPath = path.join(packageDirectory, browsersListFile);
   const targetPath = path.join(appRootPath, browsersListFile);
 
+  // Path/package itself, don't copy
+  if (browsersListPath === targetPath) {
+    return;
+  }
+
   console.log(`Copying ${browsersListPath} to ${targetPath}`);
 
   try {
