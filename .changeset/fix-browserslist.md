@@ -1,5 +1,5 @@
 ---
-issue: <GitHub Issue URL>
+issue: https://github.com/pmedianetwork/webpack-config/issues/34
 type: patch
 ---
 
