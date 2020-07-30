@@ -366,7 +366,7 @@ function webpackPluginServe(_a) {
                             }
                         });
                     }); });
-                }, static: staticPaths }, options)),
+                }, static: staticPaths, waitForBuild: true }, options)),
         ],
         watch: true,
     };
