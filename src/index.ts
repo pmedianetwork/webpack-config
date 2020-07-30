@@ -437,6 +437,7 @@ function webpackPluginServe({
             await next();
           }),
         static: staticPaths,
+        waitForBuild: true,
         ...options,
       }),
     ],
