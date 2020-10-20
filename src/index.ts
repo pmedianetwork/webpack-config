@@ -428,7 +428,8 @@ function webpackPluginServe({
   return {
     plugins: [
       new WebpackPluginServe({
-        hmr: true,
+        // @ts-ignore: The types don't have the feature yet
+        hmr: "refresh-on-failure",
         progress: "minimal",
         historyFallback,
         middleware: (app) =>
