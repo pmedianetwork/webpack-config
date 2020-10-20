@@ -1,5 +1,5 @@
 ---
-issue: refresh-on-failure
+issue: https://github.com/pmedianetwork/webpack-config/issues/41
 type: minor
 ---
 
