@@ -353,7 +353,7 @@ function webpackPluginServe(_a) {
     // not used as it's possible it runs out of memory on default settings.
     return {
         plugins: [
-            new webpack_plugin_serve_1.WebpackPluginServe(tslib_1.__assign({ hmr: true, progress: "minimal", historyFallback: historyFallback, middleware: function (app) {
+            new webpack_plugin_serve_1.WebpackPluginServe(tslib_1.__assign({ hmr: "refresh-on-failure", progress: "minimal", historyFallback: historyFallback, middleware: function (app) {
                     return app.use(function (ctx, next) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                         return tslib_1.__generator(this, function (_a) {
                             switch (_a.label) {

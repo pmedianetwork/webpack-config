@@ -428,11 +428,11 @@ function webpackPluginServe({
   return {
     plugins: [
       new WebpackPluginServe({
-        hmr: true,
+        hmr: "refresh-on-failure",
         progress: "minimal",
         historyFallback,
         middleware: (app) =>
-          app.use(async (ctx, next) => {
+          app.use(async (ctx: any, next: any) => {
             ctx.set("Access-Control-Allow-Origin", "*");
             await next();
           }),
