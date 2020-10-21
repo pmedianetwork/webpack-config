@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
-    "pretest": "npm run build && cd demo && npm ci",
+    "pretest": "npm run check-types && cd demo && npm ci",
+    "check-types": "tsc --noEmit",
     "test": "jest test.js",
     "build": "rimraf ./dist && tsc",
     "postinstall": "npm run copy-browserslist",
@@ -86,7 +87,6 @@
     "@types/terser-webpack-plugin": "^2.2.0",
     "@types/webpack": "^4.41.10",
     "@types/webpack-merge": "^4.1.5",
-    "@types/webpack-plugin-serve": "^0.10.0",
     "husky": "^4.2.3",
     "jest": "^26.1.0",
     "lint-staged": "^10.1.1",

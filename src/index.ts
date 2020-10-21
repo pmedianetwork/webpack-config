@@ -7,6 +7,7 @@ import webpack from "webpack";
 import {
   WebpackPluginServe,
   WebpackPluginServeOptions,
+  // @ts-ignore: webpack-plugin-serve types are broken and need an update
 } from "webpack-plugin-serve";
 import merge from "webpack-merge";
 import BrotliPlugin from "brotli-webpack-plugin";
@@ -432,7 +433,9 @@ function webpackPluginServe({
         hmr: "refresh-on-failure",
         progress: "minimal",
         historyFallback,
+        // @ts-ignore: webpack-plugin-serve types are broken
         middleware: (app) =>
+          // @ts-ignore: Same here
           app.use(async (ctx, next) => {
             ctx.set("Access-Control-Allow-Origin", "*");
             await next();
