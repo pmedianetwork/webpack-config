@@ -46,7 +46,7 @@ declare type FileLoaderOptions = {
 declare function loadFonts(options?: FileLoaderOptions): webpack.Configuration;
 declare function loadImages(options?: FileLoaderOptions, svgLoader?: string[]): webpack.Configuration;
 declare function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration;
-declare function webpackPluginServe({ staticPaths, historyApiFallback: historyFallback, ...options }: WebpackPluginServeOptions & {
+declare function webpackPluginServe({ staticPaths, historyApiFallback, ...options }: WebpackPluginServeOptions & {
     historyApiFallback: WebpackPluginServeOptions["historyFallback"];
     staticPaths: WebpackPluginServeOptions["static"];
 }): webpack.Configuration;

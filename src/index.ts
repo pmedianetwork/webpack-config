@@ -411,7 +411,7 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
 // to `staticPaths`.
 function webpackPluginServe({
   staticPaths,
-  historyApiFallback: historyFallback,
+  historyApiFallback,
   ...options
 }: WebpackPluginServeOptions & {
   // Adapt to webpack-dev-server naming and avoid using static reserved
@@ -422,6 +422,7 @@ function webpackPluginServe({
   if (process.env.STORYBOOK) {
     return {};
   }
+  const historyFallback = !!historyApiFallback;
 
   // You can speed up execution by 20-30% by enabling ramdisk. It's
   // not used as it's possible it runs out of memory on default settings.

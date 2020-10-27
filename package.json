@@ -1,6 +1,6 @@
 {
   "name": "@pmedianetwork/webpack-config",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "This repository contains configuration that can be shared between applications using webpack for bundling.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
-    "pretest": "npm run check-types && cd demo && npm ci",
+    "pretest": "npm run build && cd demo && npm ci",
     "check-types": "tsc --noEmit",
     "test": "jest test.js",
     "build": "rimraf ./dist && tsc",

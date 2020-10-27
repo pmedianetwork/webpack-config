@@ -1,16 +1,18 @@
 const path = require("path");
-const { merge, loadJavaScript } = require("../");
+const { merge, loadJavaScript, webpackPluginServe } = require("../");
 
 const commonConfig = merge(
   { entry: path.join(__dirname, "src") },
   loadJavaScript(),
 );
-const productionConfig = {};
+const developmentConfig = webpackPluginServe({ staticPaths: [] });
 
 module.exports = (mode) => {
   switch (mode) {
+    case "dev":
+      return merge(commonConfig, developmentConfig, { mode: "development" });
     case "test":
-      return merge(commonConfig, productionConfig, { mode: "none" });
+      return merge(commonConfig, { mode: "none" });
     default:
       throw new Error(`${mode} didn't match`);
   }
