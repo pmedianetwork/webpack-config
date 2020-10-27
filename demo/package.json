@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack --env dev",
     "test": "webpack --env test"
   },
   "keywords": [],

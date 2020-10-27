@@ -4,7 +4,7 @@ declare module "webpack-plugin-serve" {
 
   export interface WebpackPluginServeOptions {
     hmr?: boolean | "refresh-on-failure";
-    historyFallback?: string;
+    historyFallback?: boolean;
     static?: string[];
     progress?: string;
     middleware?: (app: any) => any;

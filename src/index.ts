@@ -411,7 +411,7 @@ function dontParse(paths: webpack.Module["noParse"]): webpack.Configuration {
 // to `staticPaths`.
 function webpackPluginServe({
   staticPaths,
-  historyApiFallback: historyFallback,
+  historyApiFallback,
   ...options
 }: WebpackPluginServeOptions & {
   // Adapt to webpack-dev-server naming and avoid using static reserved
@@ -430,7 +430,7 @@ function webpackPluginServe({
       new WebpackPluginServe({
         hmr: "refresh-on-failure",
         progress: "minimal",
-        historyFallback,
+        historyFallback: !!historyApiFallback,
         middleware: (app) =>
           app.use(async (ctx: any, next: any) => {
             ctx.set("Access-Control-Allow-Origin", "*");
