@@ -345,10 +345,11 @@ exports.dontParse = dontParse;
 // to `staticPaths`.
 function webpackPluginServe(_a) {
     var _this = this;
-    var staticPaths = _a.staticPaths, historyFallback = _a.historyApiFallback, options = tslib_1.__rest(_a, ["staticPaths", "historyApiFallback"]);
+    var staticPaths = _a.staticPaths, historyApiFallback = _a.historyApiFallback, options = tslib_1.__rest(_a, ["staticPaths", "historyApiFallback"]);
     if (process.env.STORYBOOK) {
         return {};
     }
+    var historyFallback = !!historyApiFallback;
     // You can speed up execution by 20-30% by enabling ramdisk. It's
     // not used as it's possible it runs out of memory on default settings.
     return {

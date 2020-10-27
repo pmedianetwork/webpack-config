@@ -422,6 +422,7 @@ function webpackPluginServe({
   if (process.env.STORYBOOK) {
     return {};
   }
+  const historyFallback = !!historyApiFallback;
 
   // You can speed up execution by 20-30% by enabling ramdisk. It's
   // not used as it's possible it runs out of memory on default settings.
@@ -430,7 +431,7 @@ function webpackPluginServe({
       new WebpackPluginServe({
         hmr: "refresh-on-failure",
         progress: "minimal",
-        historyFallback: !!historyApiFallback,
+        historyFallback,
         middleware: (app) =>
           app.use(async (ctx: any, next: any) => {
             ctx.set("Access-Control-Allow-Origin", "*");
