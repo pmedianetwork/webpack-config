@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "format": "prettier --loglevel warn --write \"**/*.{js,ts,tsx,css,md}\"",
-    "pretest": "npm run check-types && cd demo && npm ci",
+    "pretest": "npm run build && cd demo && npm ci",
     "check-types": "tsc --noEmit",
     "test": "jest test.js",
     "build": "rimraf ./dist && tsc",
